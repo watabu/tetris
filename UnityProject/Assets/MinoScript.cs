@@ -9,13 +9,33 @@ using System;
 public class MinoScript : MonoBehaviour {
 
     public GameObject cellPrefab;//ミノ１つ１つを構成するセルのクラスの参照
-    public bool[,] cellFlag;    //mino[y,x]のように参照 (true : セルが存在 false : セルがない )
+    public String[] cellState; //ミノの形を指定するデータ   
+    bool[,] cellFlag;//cellFlag[y,x]のように参照 (true : セルが存在 false : セルがない )
     Vector2Int minoOriginCood;//ミノのゲーム盤での基準座標
 
-	// Use this for initialization
-	void Start () {
+    void Awake()
+    {
         cellFlag = new bool[5, 5];
-	}
+        for (int y = 0; y < 5; y++)
+        {
+            for (int x = 0; x < 5; x++)
+            {
+                char c = cellState[y][x];
+                if (c == '_')
+                {
+                    cellFlag[y, x] = false;
+                }
+                else if (c == 'x')
+                {
+                    cellFlag[y, x] = true;
+                }
+            }
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
+    }
 	
 	// Update is called once per frame
 	void Update () {

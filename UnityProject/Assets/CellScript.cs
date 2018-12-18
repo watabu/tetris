@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CellScript : MonoBehaviour {
 
-    public Vector2Int boardCood; 
+    //public Vector2Int boardCood; 
 
 	// Use this for initialization
 	void Start () {
