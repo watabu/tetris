@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4578216758105680}
   - component: {fileID: 114490164152985696}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MinoPrefab3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,8 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 1124433453665538, guid: 13bf4a8dd3d9bcd42b9c5cfa9b9d577b, type: 2}
   cellState:
-  - _____
-  - __x__
-  - __x__
-  - __x__
-  - __x__
+  - __x_
+  - __x_
+  - __x_
+  - __x_

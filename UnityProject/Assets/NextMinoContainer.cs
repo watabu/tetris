@@ -1,20 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 //Nextを制御するためのクラス
 //
 public class NextMinoContainer : MonoBehaviour {
-    //nextを格納するリスト
-    //mino[0]が一番古いミノ(次に取得するミノ)
-    //mino[Length-1]が一番新しく登録したミノ
-        [SerializeField] List<GameObject> mino;
+    public GameObject nextContainerPrefab;
+    private GameObject nextMinoBegin;
+    private GameObject nextMinoEnd;
     public GameObject minoGenerator;
+    public int nextContainerSize;
+
+    [SerializeField] UnityEvent OnMinoGenerated;//
 
     // Use this for initialization
     void Start()
     {
-        mino = new List<GameObject>();
+        float sizeY=nextContainerPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
+        GameObject prevContainer=null;
+        GameObject container = Instantiate(
+            nextContainerPrefab,
+            gameObject.transform.position + new Vector3(0.0f, 0.0f, 10.0f),
+            Quaternion.identity
+            );
+        nextMinoBegin = container;
+        prevContainer = container;
+        container.transform.SetParent(transform);
+        for (int i = 1; i < nextContainerSize; i++)//最初の１つ以外を生成
+        {
+            container = Instantiate(
+                nextContainerPrefab,
+                gameObject.transform.position + new Vector3(0.0f, -sizeY * (nextContainerSize-i), 10.0f),
+                Quaternion.identity
+                );
+            container.GetComponent<NextContainerScript>().prevContainer = prevContainer;
+            prevContainer.GetComponent<NextContainerScript>().nextContainer = container;
+            prevContainer = container;
+            container.transform.SetParent(transform);
+        }
+        nextMinoEnd = container;
     }
 	// Update is called once per frame
 	void Update () {
@@ -23,25 +48,23 @@ public class NextMinoContainer : MonoBehaviour {
 
     public GameObject Register(GameObject mino_)//ミノを登録する
     {
-        mino.Add(mino_);
-        mino_.transform.parent = transform;
+        nextMinoBegin.GetComponent<NextContainerScript>().Register(mino_);
         return mino_;
     }
 
     public void FillMinoList()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i <= nextContainerSize; i++)
         {
             Register(minoGenerator.GetComponent<MinoGeneratorScript>().GetMino());
         }
     }
 
-    public GameObject GetNextMino()//次のミノを返す(返した後はこのクラス内から削除されるので注意)
+    public GameObject GetNextMino()
     {
-        GameObject output = mino[0];
-        mino.RemoveAt(0);
+        GameObject obj= nextMinoEnd.GetComponent<NextContainerScript>().GetMino();
         Register(minoGenerator.GetComponent<MinoGeneratorScript>().GetMino());
-        return output;
+        return obj;
     }
 
 }

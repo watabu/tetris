@@ -9,12 +9,14 @@ using UnityEngine.Events;
 public class MinoControllerScript : MonoBehaviour
 {
 
-    Vector2Int[,] cells;//[5,5]サイズを前提(回転の中心は[2,2])
+    Vector2Int[,] cells;//[4,4]サイズを前提(回転の中心は[1.5,1.5])
     public GameObject input;//入力クラスの参照
     public int fallSpeed;//ミノが落ちる速さ (何フレーム(60フレーム→１秒)に１回１マス落ちるか)
     public GameObject gameBoard;
+    private GameBoardScript gameBoardS;
     int count;//
     bool minoStuckFlag;//ミノが止まったか
+    private int minoSize;
 
     [SerializeField] UnityEvent OnMinoStuck;//ミノを動かせなくなったとき実行する関数を格納する変数
 
@@ -22,8 +24,10 @@ public class MinoControllerScript : MonoBehaviour
     {
         minoStuckFlag = false;
         count = 0;
-        cells = new Vector2Int[5, 5];
+        minoSize = 4;
+        cells = new Vector2Int[minoSize, minoSize];
         if (OnMinoStuck == null) OnMinoStuck = new UnityEvent(); //イベント・インスタンスの作成
+        gameBoardS = gameBoard.GetComponent<GameBoardScript>();
     }
 
     // Use this for initialization
@@ -51,7 +55,7 @@ public class MinoControllerScript : MonoBehaviour
 
     //複数のセルを動かせるようにする
     //5x5サイズの配列を渡されることを前提としているため、
-    //回転の中心はcells[2,2]
+    //回転の中心はcells[(minoSize-1)/2,(minoSize-1)/2]
     //とする
     public void RegisterCells(Vector2Int[,] cells_) {
         cells = cells_;
@@ -60,7 +64,7 @@ public class MinoControllerScript : MonoBehaviour
     }
     public void RemoveCells()//セルの操作をやめる
     {
-        cells = new Vector2Int[5, 5];
+        cells = new Vector2Int[minoSize, minoSize];
         minoStuckFlag = false;
         count = 0;
     }
@@ -72,25 +76,27 @@ public class MinoControllerScript : MonoBehaviour
 
     public bool MoveDown()//
     {
-        Debug.Log("move down");
-        for (int y = 0; y < 5; y++)//下の段から順番にまわす
-            for (int x = 0; x < 5; x++)
+        //Debug.Log("move down");
+
+        for (int y = 0; y < minoSize; y++)//下の段から順番にまわす
+            for (int x = 0; x < minoSize; x++)
                 if (!MoveCell(ref cells[y, x], 0, -1))
                     return false;//下にミノがあった場合
+
         return true;
     }
     public bool MoveLeft()//
     {
-        for (int x = 0; x < 5; x++)//左の段から順番にまわす
-            for (int y = 0; y < 5; y++)
+        for (int x = 0; x < minoSize; x++)//左の段から順番にまわす
+            for (int y = 0; y < minoSize; y++)
                 if (!MoveCell(ref cells[y, x], -1, 0))
                     return false;//下にミノがあった場合
         return true;
     }
     public bool MoveRight()//
     {
-        for (int x = 4; x >= 0; x--)//右の段から順番にまわす
-            for (int y = 0; y < 5; y++)
+        for (int x = minoSize; x >= 0; x--)//右の段から順番にまわす
+            for (int y = 0; y < minoSize; y++)
                 if (!MoveCell(ref cells[y, x], 1, 0))
                     return false;//下にミノがあった場合
         return true;
@@ -101,10 +107,9 @@ public class MinoControllerScript : MonoBehaviour
     //内部処理用
     private bool MoveCell(ref Vector2Int cell, int offsetX, int offsetY)
     {
-        if (cell.x != -1 && cell.y != -1)
+        if (!isNull(cell))
         {
-            //Vector2Int cood = cell.GetComponent<CellScript>().boardCood;
-            Vector2Int destination = gameBoard.GetComponent<GameBoardScript>().MoveCell(cell, offsetX, offsetY);
+            Vector2Int destination = gameBoardS.MoveCell(cell, offsetX, offsetY);
             if (cell == destination)//下にミノがあった場合
             {
                 minoStuckFlag = true;
@@ -114,5 +119,9 @@ public class MinoControllerScript : MonoBehaviour
         }
         return true;
     }
+
+    //格納している配列のマス[cell.y,cell.x]の座標に
+    //オブジェクトがないときtrueを返す
+    private bool isNull(Vector2Int cell) { return cell.x == -1 || cell.y == -1; }
 
 }

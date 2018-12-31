@@ -61,12 +61,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CanvasAnimationScript.cs" />
     <Compile Include="Assets\CellScript.cs" />
     <Compile Include="Assets\GameBoardScript.cs" />
+    <Compile Include="Assets\GameBoardUpdateScript.cs" />
     <Compile Include="Assets\GameSceneController.cs" />
+    <Compile Include="Assets\InputControllerScript.cs" />
     <Compile Include="Assets\MinoControllerScript.cs" />
     <Compile Include="Assets\MinoGeneratorScript.cs" />
     <Compile Include="Assets\MinoScript.cs" />
+    <Compile Include="Assets\NextContainerScript.cs" />
     <Compile Include="Assets\NextMinoContainer.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
