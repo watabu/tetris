@@ -6,38 +6,32 @@ using UnityEngine.Tilemaps;
 
 public class GameBoardScript : MonoBehaviour
 {
-    GameBoardUpdateScript gameBoard;
 
     public GameObject cellController;//ミノを動かすクラスの参照
-    public Vector2Int generateCood;//ミノをどこのマスに出現させるか
-    public Vector2Int[] gameoverCells;//どこのマスが埋まったらゲームオーバーになるか
+    Vector3Int generateCood;//ミノをどこのマスに出現させるか
 
     public GameObject nextMinoContainer;//次のミノを保持しているクラス
 
     bool activeFlag;//プレイヤーがミノを動かせるかどうかのフラグ
-    float cellSize;//セル１つの大きさ
-
-    int minoNum;//ミノの
-
-    Tilemap tilemap;
-
+    
+    public Tilemap tilemap;
+    public Tilemap controlTile;
     [SerializeField] UnityEvent OnMinoFilled;//ミノが上まで積まれたとき実行する関数を格納する変数
     [SerializeField] bool minoFilledFlag;
 
     void Awake()
     {
-        minoNum = 4;
         cellController.SetActive(false);//コントローラーを無効化
         if (OnMinoFilled == null) OnMinoFilled = new UnityEvent(); //イベント・インスタンスの作成
-        tilemap=transform.Find("Grid/BoardCell").GetComponent<Tilemap>();
     }
 
     // Use this for initialization
     void Start()
     {
-        gameBoard = GetComponent<GameBoardUpdateScript>();
+        var generateCell = transform.Find("Grid/MinoGenerateCell");
+        if (generateCell != null)
+            generateCood = tilemap.WorldToCell(generateCell.position);
         activeFlag = false;
-        //cellSize = gameBoard.cellSize;
     }
 
     // Update is called once per frame
@@ -67,7 +61,7 @@ public class GameBoardScript : MonoBehaviour
     {
     }
     public void ClearCell(Vector2Int cood) { ClearCell(cood.y, cood.x); }
-    public void ClearCell(int x,int y) {  }
+    public void ClearCell(int x,int y) { tilemap.SetTile(new Vector3Int(x, y, 0), null);  }
     //次のミノをNextを保持するクラスから取得する
     //ミノは取得したあと関数内でコントロールクラスに渡される
     public void GetNextMino()
@@ -75,15 +69,17 @@ public class GameBoardScript : MonoBehaviour
         if (minoFilledFlag) return;//もしゲーム盤が上まで埋まってたら渡さない
         GameObject mino = nextMinoContainer.GetComponent<NextMinoContainer>().GetNextMino();//次のミノのコンテナからミノを取得
         bool[,] cells = mino.GetComponent<MinoScript>().GetShape();//ミノのデータからセルを生成する
+        int minoLengthY = cells.GetLength(0);
+        int minoLengthX = cells.GetLength(1);
         Tile tile = mino.GetComponent<MinoScript>().GetCell();
-        Vector2Int[,] cellscood = new Vector2Int[minoNum, minoNum];//コントローラに渡すセルの座標
-        for (int y = 0; y < minoNum; y++)
-            for (int x = 0; x < minoNum; x++)
+        Vector2Int[,] cellscood = new Vector2Int[minoLengthY, minoLengthX];//コントローラに渡すセルの座標
+        for (int y = 0; y < minoLengthY; y++)
+            for (int x = 0; x < minoLengthX; x++)
                 if (cells[y, x])//ミノから生成したセルが(x,y)のマスで存在するとき
                 {
-                    if (IsEmpty(generateCood.x + x, generateCood.y + y))//生成するマスでミノが存在しないとき
+                    if (IsEmpty(0,generateCood.x + x, generateCood.y + y))//生成するマスでミノが存在しないとき
                     {
-                        ReDefineCell(tile, generateCood.x + x, generateCood.y + y);
+                        ReDefineCell(tilemap,tile, generateCood.x + x, generateCood.y + y);
                         cellscood[y, x] = new Vector2Int(generateCood.x + x, generateCood.y + y);
                     }
                     else
@@ -101,11 +97,11 @@ public class GameBoardScript : MonoBehaviour
 
     void CheckLine()//ミノが一列すべてうまったかどうか(内部処理用)
     {
-        int cellYCount = 0;
+        /*int cellYCount = 0;
         for (int y = 0; y < gameBoard.height; y++)
         {
             for (int x = 0; x < gameBoard.width; x++)
-                if (IsEmpty(x, y))//もし空白があったら
+                if (IsEmpty(0,x, y))//もし空白があったら
                 {
                     if (cellYCount == 0) return;
                     for (int y2 = 0; y2 < cellYCount; y++)
@@ -113,44 +109,83 @@ public class GameBoardScript : MonoBehaviour
                             ClearCell(x2, y2);//それまでの列のセルを消去
                     for (int y2 = cellYCount; y2 < gameBoard.height; y++)
                         for (int x2 = 0; x2 < gameBoard.width; x++)
-                            MoveCell(x2, y2, 0, -cellYCount);//上のセルを下に移動
+                            MoveCell(0,x2, y2, 0, -cellYCount);//上のセルを下に移動
                     return;
                 }
             cellYCount++;
+        }*/
+    }
+
+    public void SwitchCellLayer(int gridLayer, Vector2Int cell)
+    {
+        Tilemap tile = GetLayer(gridLayer), destTile = GetOtherLayer(gridLayer);
+        Vector3Int cood = new Vector3Int(cell.x, cell.y, 0);
+        TileBase prevCell = tile.GetTile(cood);
+        if (prevCell != null)
+        {
+            destTile.SetTile(cood, prevCell);//移動元のセルを削除
+            tile.SetTile(cood, null);//移動元のセルを削除
         }
     }
 
-    public Vector2Int MoveCell(Vector2Int cell, Vector2Int offset)             { return MoveCell  (cell.x, cell.y, offset.x, offset.y); }
-    public Vector2Int MoveCell(Vector2Int cell, int offsetX, int offsetY)      { return MoveCell  (cell.x, cell.y, offsetX, offsetY); }
-    public Vector2Int MoveCell(int cellX, int cellY, int offsetX, int offsetY) { return MoveCellTo(cellX, cellY, cellX + offsetX, cellY + offsetY); }
-
-    public Vector2Int MoveCellTo(Vector2Int cell, Vector2Int destination)      { return MoveCellTo(cell.x, cell.y, destination.x, destination.y); }
-    public Vector2Int MoveCellTo(Vector2Int cell, int offsetX, int offsetY)    { return MoveCellTo(cell.x, cell.y, offsetX, offsetY); }
-    public Vector2Int MoveCellTo(int cellX, int cellY, int destinationX, int destinationY)
+    public Vector2Int SwitchCellLayerTo(int gridLayer, Vector2Int cell, Vector3Int offset)
     {
-        if (IsEmpty(cellX, cellY) || !IsEmpty(destinationX, destinationY))
-            return new Vector2Int(cellX, cellY);
-        if (tilemap != null)
+        Tilemap tile = GetLayer(gridLayer), destTile = GetOtherLayer(gridLayer);
+        Vector3Int cood = new Vector3Int(cell.x, cell.y, 0);
+        TileBase prevCell = tile.GetTile(cood);
+        if (prevCell != null)
         {
-            ReDefineCell(tilemap.GetTile(new Vector3Int(cellX, cellY,0)), destinationX, destinationY);
-            tilemap.SetTile(new Vector3Int(cellX, cellY, 0), null);//移動元のセルを削除
+            destTile.SetTile(cood + offset, prevCell);//移動元のセルを削除
+            tile.SetTile(cood, null);//移動元のセルを削除
+            return cell + new Vector2Int(offset.x,offset.y);
+        }
+        return cell;
+    }
+
+    public Vector2Int MoveCell(int gridLayer,Vector2Int cell, Vector2Int offset)             { return MoveCell  (gridLayer,cell.x, cell.y, offset.x, offset.y); }
+    public Vector2Int MoveCell(int gridLayer, Vector2Int cell, int offsetX, int offsetY)      { return MoveCell  (gridLayer, cell.x, cell.y, offsetX, offsetY); }
+    public Vector2Int MoveCell(int gridLayer, int cellX, int cellY, int offsetX, int offsetY) { return MoveCellTo(gridLayer, cellX, cellY, cellX + offsetX, cellY + offsetY); }
+
+    public Vector2Int MoveCellTo(int gridLayer, Vector2Int cell, Vector2Int destination)      { return MoveCellTo(gridLayer, cell.x, cell.y, destination.x, destination.y); }
+    public Vector2Int MoveCellTo(int gridLayer, Vector2Int cell, int offsetX, int offsetY)    { return MoveCellTo(gridLayer, cell.x, cell.y, offsetX, offsetY); }
+    public Vector2Int MoveCellTo(int gridLayer, int cellX, int cellY, int destinationX, int destinationY)
+    {
+        if (IsEmpty(gridLayer, cellX, cellY) || !IsEmpty(gridLayer, destinationX, destinationY))
+            return new Vector2Int(cellX, cellY);
+        Tilemap tile = GetLayer(gridLayer);
+        if (tile != null)
+        {
+            ReDefineCell(tile, tile.GetTile(new Vector3Int(cellX, cellY, 0)), destinationX, destinationY);
+            tile.SetTile(new Vector3Int(cellX, cellY, 0), null);//移動元のセルを削除
             return new Vector2Int(destinationX, destinationY);
         }
         return new Vector2Int(cellX, cellY);
     }
     
-    private void ReDefineCell(TileBase cell, int destinationX, int destinationY)
+    private void ReDefineCell(Tilemap map,TileBase cell, int destinationX, int destinationY)
     {
-        if (tilemap != null)
+        if (map != null)
         {
-            tilemap.SetTile(new Vector3Int(destinationX, destinationY, 0), cell);
+            map.SetTile(new Vector3Int(destinationX, destinationY, 0), cell);
         }
     }
 
     //マスにミノがあるときtrue、ないときfalseを返す
-    public bool IsEmpty(int cellX, int cellY) {
-        return !tilemap.HasTile(new Vector3Int(cellX, cellY, 0));
+    public bool IsEmpty(int gridLayer, Vector2Int cood) { return IsEmpty(gridLayer, cood.x, cood.y); }
+    public bool IsEmpty(int gridLayer, int cellX, int cellY)
+    {
+        Tilemap tile = GetLayer(gridLayer);
+        return !tile.HasTile(new Vector3Int(cellX, cellY, 0));
     }
     public bool IsFilled() { return minoFilledFlag; }
+
+    Tilemap GetLayer(int gridLayer)
+    {
+        return gridLayer == 0 ? tilemap : controlTile;
+    }
+    Tilemap GetOtherLayer(int gridLayer)
+    {
+        return gridLayer == 0 ? controlTile : tilemap;
+    }
 
 }

@@ -7,10 +7,9 @@ public class NextContainerScript : MonoBehaviour {
     GameObject mino;
     public GameObject nextContainer;
     public GameObject prevContainer;
-    int minoSize;
     // Use this for initialization
     void Start () {
-        minoSize = 4;
+
     }
 	
 	// Update is called once per frame

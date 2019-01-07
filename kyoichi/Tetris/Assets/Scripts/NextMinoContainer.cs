@@ -7,10 +7,11 @@ using UnityEngine.Events;
 //
 public class NextMinoContainer : MonoBehaviour {
     public GameObject nextContainerPrefab;
-    private GameObject nextMinoBegin;
-    private GameObject nextMinoEnd;
     public GameObject minoGenerator;
     public int nextContainerSize;
+
+    private GameObject nextMinoBegin;//コンテナの先頭
+    private GameObject nextMinoEnd;//コンテナの最後尾
 
     [SerializeField] UnityEvent OnMinoGenerated;//
 
@@ -19,19 +20,16 @@ public class NextMinoContainer : MonoBehaviour {
     {
         float sizeY=nextContainerPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
         GameObject prevContainer=null;
-        GameObject container = Instantiate(
-            nextContainerPrefab,
-            gameObject.transform.position + new Vector3(0.0f, 0.0f, 10.0f),
-            Quaternion.identity
-            );
+        GameObject container = UsefulFunctions.CloneObject(nextContainerPrefab);
+        container.transform.position += gameObject.transform.position;
+        container.transform.SetParent(transform);
         nextMinoBegin = container;
         prevContainer = container;
-        container.transform.SetParent(transform);
         for (int i = 1; i < nextContainerSize; i++)//最初の１つ以外を生成
         {
             container = Instantiate(
                 nextContainerPrefab,
-                gameObject.transform.position + new Vector3(0.0f, -sizeY * (nextContainerSize-i), 10.0f),
+                gameObject.transform.position + new Vector3(0.0f, -sizeY * (nextContainerSize-i), 0.0f),
                 Quaternion.identity
                 );
             container.GetComponent<NextContainerScript>().prevContainer = prevContainer;

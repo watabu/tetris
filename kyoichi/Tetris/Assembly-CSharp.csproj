@@ -64,7 +64,6 @@
     <Compile Include="Assets\Scripts\CanvasAnimationScript.cs" />
     <Compile Include="Assets\Scripts\CellScript.cs" />
     <Compile Include="Assets\Scripts\GameBoardScript.cs" />
-    <Compile Include="Assets\Scripts\GameBoardUpdateScript.cs" />
     <Compile Include="Assets\Scripts\GameSceneController.cs" />
     <Compile Include="Assets\Scripts\InputControllerScript.cs" />
     <Compile Include="Assets\Scripts\MinoControllerScript.cs" />
@@ -91,16 +90,16 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>D:/kyoichi/document/Unity Projects/Tetris/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/Kyoichi/gitlocal/hellogithub/kyoichi/Tetris/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>D:/kyoichi/document/Unity Projects/Tetris/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/Kyoichi/gitlocal/hellogithub/kyoichi/Tetris/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>D:/kyoichi/document/Unity Projects/Tetris/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/Kyoichi/gitlocal/hellogithub/kyoichi/Tetris/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/kyoichi/document/Unity Projects/Tetris/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/Kyoichi/gitlocal/hellogithub/kyoichi/Tetris/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

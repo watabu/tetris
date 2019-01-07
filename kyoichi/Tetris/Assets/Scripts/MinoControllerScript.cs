@@ -8,15 +8,16 @@ using UnityEngine.Events;
 //
 public class MinoControllerScript : MonoBehaviour
 {
-
-    Vector2Int[,] cells;//[4,4]サイズを前提(回転の中心は[1.5,1.5])
+    //１次元配列にすると移動で下から順番にやる処理とか面倒になる
+    Vector2Int[,] cells;
     public GameObject input;//入力クラスの参照
     public int fallSpeed;//ミノが落ちる速さ (何フレーム(60フレーム→１秒)に１回１マス落ちるか)
     public GameObject gameBoard;
     private GameBoardScript gameBoardS;
     int count;//
     bool minoStuckFlag;//ミノが止まったか
-    private int minoSize;
+     int minoSizeY;
+     int minoSizeX;
 
     [SerializeField] UnityEvent OnMinoStuck;//ミノを動かせなくなったとき実行する関数を格納する変数
 
@@ -24,8 +25,6 @@ public class MinoControllerScript : MonoBehaviour
     {
         minoStuckFlag = false;
         count = 0;
-        minoSize = 4;
-        cells = new Vector2Int[minoSize, minoSize];
         if (OnMinoStuck == null) OnMinoStuck = new UnityEvent(); //イベント・インスタンスの作成
         gameBoardS = gameBoard.GetComponent<GameBoardScript>();
     }
@@ -42,15 +41,25 @@ public class MinoControllerScript : MonoBehaviour
         if (IsStuck())//ミノを動かせなくなったとき関数を実行する
         {
             OnMinoStuck.Invoke();
+            return;
+        }
+        Vector3Int moveOffset = Vector3Int.zero;
+        if (count % fallSpeed == 0)//一定間隔でミノを下に落とす
+        {
+            moveOffset = Vector3Int.down;
+        }
+        SwitchCellToControl(moveOffset);//セルをコントロールレイヤーに切り替え、moveOffset分移動させる
+        if (MoveAble())
+        {
+            SwitchCellToBoard();//コントロールレイヤーに置いたセルを元に戻す
         }
         else
         {
-            if (count % fallSpeed == 0)//一定間隔でミノを下に落とす
-            {
-                MoveDown();
-            }
-            count++;
+            SwitchCellToBoard(moveOffset*-1);//コントロールレイヤーに置いたセルを元に戻す
+            minoStuckFlag = true;
+            return;
         }
+        count++;
     }
 
     //複数のセルを動かせるようにする
@@ -58,13 +67,15 @@ public class MinoControllerScript : MonoBehaviour
     //回転の中心はcells[(minoSize-1)/2,(minoSize-1)/2]
     //とする
     public void RegisterCells(Vector2Int[,] cells_) {
+        minoSizeY = cells_.GetLength(0);
+        minoSizeX = cells_.GetLength(1);
         cells = cells_;
         minoStuckFlag = false;
         count = 0;
     }
     public void RemoveCells()//セルの操作をやめる
     {
-        cells = new Vector2Int[minoSize, minoSize];
+        cells = null;
         minoStuckFlag = false;
         count = 0;
     }
@@ -74,49 +85,45 @@ public class MinoControllerScript : MonoBehaviour
     public bool RotateLeft() { return true; } //左回り(反時計回り)にまわす
     public bool RotateRight() { return true; }//右回り(時計回り)にまわす
 
-    public bool MoveDown()//
+    void SwitchCellToControl()
     {
-        //Debug.Log("move down");
-
-        for (int y = 0; y < minoSize; y++)//下の段から順番にまわす
-            for (int x = 0; x < minoSize; x++)
-                if (!MoveCell(ref cells[y, x], 0, -1))
-                    return false;//下にミノがあった場合
-
-        return true;
+        for (int y = 0; y < minoSizeY; y++)
+            for (int x = 0; x < minoSizeX; x++)
+                gameBoardS.SwitchCellLayer(0,cells[y, x]);
     }
-    public bool MoveLeft()//
+    void SwitchCellToBoard()
     {
-        for (int x = 0; x < minoSize; x++)//左の段から順番にまわす
-            for (int y = 0; y < minoSize; y++)
-                if (!MoveCell(ref cells[y, x], -1, 0))
-                    return false;//下にミノがあった場合
-        return true;
-    }
-    public bool MoveRight()//
-    {
-        for (int x = minoSize; x >= 0; x--)//右の段から順番にまわす
-            for (int y = 0; y < minoSize; y++)
-                if (!MoveCell(ref cells[y, x], 1, 0))
-                    return false;//下にミノがあった場合
-        return true;
+        for (int y = 0; y < minoSizeY; y++)
+            for (int x = 0; x < minoSizeX; x++)
+                gameBoardS.SwitchCellLayer(1,cells[y, x]);
     }
 
-    //格納しているセルを(offsetX,offsetY)だけ動かす関数
-    //移動に失敗した場合falseを返す
-    //内部処理用
-    private bool MoveCell(ref Vector2Int cell, int offsetX, int offsetY)
+    void SwitchCellToControl(Vector3Int moveOffset)
     {
-        if (!IsNull(cell))
-        {
-            Vector2Int destination = gameBoardS.MoveCell(cell, offsetX, offsetY);
-            if (cell == destination)//下にミノがあった場合
+        for (int y = 0; y < minoSizeY; y++)
+            for (int x = 0; x < minoSizeX; x++)
             {
-                minoStuckFlag = true;
-                return false;
+                cells[y, x]=gameBoardS.SwitchCellLayerTo(0,cells[y, x], moveOffset);
             }
-            cell = destination;
-        }
+    }
+    void SwitchCellToBoard(Vector3Int moveOffset)
+    {
+        for (int y = 0; y < minoSizeY; y++)
+            for (int x = 0; x < minoSizeX; x++)
+            {
+                cells[y, x]=gameBoardS.SwitchCellLayerTo(1,cells[y, x], moveOffset);
+            }
+    }
+    
+    //コントロールレイヤーに置いたセルが表示レイヤーのセルとかぶらないか
+    bool MoveAble()
+    {
+        for (int y = 0; y < minoSizeY; y++)
+            for (int x = 0; x < minoSizeX; x++)
+                if (!gameBoardS.IsEmpty(0,cells[y,x]))
+                {
+                    return false;
+                }
         return true;
     }
 

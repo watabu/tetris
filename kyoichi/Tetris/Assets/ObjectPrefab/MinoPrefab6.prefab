@@ -53,7 +53,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 11400000, guid: 1cccafd0fea8f214a9341c1caadb5d6d, type: 2}
   cellState:
-  - ____
-  - __x_
-  - __x_
-  - _xx_
+  - _x
+  - _x
+  - xx

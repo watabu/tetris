@@ -12,16 +12,18 @@ public class MinoScript : MonoBehaviour {
     public Tile cellPrefab;//ミノ１つ１つを構成するセルのクラスの参照
     public String[] cellState; //ミノの形を指定するデータ   
     bool[,] cellFlag;//cellFlag[y,x]のように参照 (true : セルが存在 false : セルがない )
-
-    int minoSize;
+    int minoLengthY;
+    int minoLengthX;
 
     void Awake()
     {
-        minoSize = 4;
-        cellFlag = new bool[minoSize, minoSize];
-        for (int y = 0; y < minoSize; y++)
+        minoLengthY = cellState.Length;
+        minoLengthX = cellState[0].Length;
+
+        cellFlag = new bool[minoLengthY, minoLengthX];
+        for (int y = 0; y < minoLengthY; y++)
         {
-            for (int x = 0; x < minoSize; x++)
+            for (int x = 0; x < minoLengthX; x++)
             {
                 char c = cellState[y][x];
                 if (c == '_')
@@ -63,8 +65,8 @@ public class MinoScript : MonoBehaviour {
         GameObject output =new GameObject();
 
         float cellSize = GetCellSize();
-        for (int y = 0; y < minoSize; y++)
-            for (int x = 0; x < minoSize; x++)
+        for (int y = 0; y < minoLengthY; y++)
+            for (int x = 0; x < minoLengthX; x++)
                 if (cellFlag[y, x])
                 {
                     GameObject obj = new GameObject();
