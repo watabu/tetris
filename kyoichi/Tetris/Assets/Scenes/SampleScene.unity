@@ -280,8 +280,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 1547962146}
-  fallSpeed: 20
   gameBoard: {fileID: 427415027}
+  fallSpeed: 20
   OnMinoStuck:
     m_PersistentCalls:
       m_Calls:
@@ -2995,6 +2995,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f9adbe31c11cb4e9615ba77a4dfab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1550560324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1550560326}
+  - component: {fileID: 1550560325}
+  m_Layer: 0
+  m_Name: FallenMinoDrawer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1550560325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1550560324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8560cc3539c303f4f9f84739358e9cdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1550560326
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1550560324}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.3712659, y: -0.15228873, z: -0.037109375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1615423662
 GameObject:
   m_ObjectHideFlags: 0

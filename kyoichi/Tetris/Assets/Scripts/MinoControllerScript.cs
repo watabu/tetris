@@ -8,23 +8,23 @@ using UnityEngine.Events;
 //
 public class MinoControllerScript : MonoBehaviour
 {
+    //入力で移動させるセル
     //１次元配列にすると移動で下から順番にやる処理とか面倒になる
     Vector2Int[,] cells;
     public GameObject input;//入力クラスの参照
+    public GameObject gameBoard;//ボードの参照
     public int fallSpeed;//ミノが落ちる速さ (何フレーム(60フレーム→１秒)に１回１マス落ちるか)
-    public GameObject gameBoard;
     private GameBoardScript gameBoardS;
-    int count;//
+
+    float time;//
     bool minoStuckFlag;//ミノが止まったか
-     int minoSizeY;
-     int minoSizeX;
+    int minoSizeY;
+    int minoSizeX;
 
     [SerializeField] UnityEvent OnMinoStuck;//ミノを動かせなくなったとき実行する関数を格納する変数
 
     private void Awake()
     {
-        minoStuckFlag = false;
-        count = 0;
         if (OnMinoStuck == null) OnMinoStuck = new UnityEvent(); //イベント・インスタンスの作成
         gameBoardS = gameBoard.GetComponent<GameBoardScript>();
     }
@@ -33,7 +33,7 @@ public class MinoControllerScript : MonoBehaviour
     void Start()
     {
         minoStuckFlag = false;
-        count = 0;
+        time = 0;
     }
     // Update is called once per frame
     void Update()
@@ -43,23 +43,19 @@ public class MinoControllerScript : MonoBehaviour
             OnMinoStuck.Invoke();
             return;
         }
-        Vector3Int moveOffset = Vector3Int.zero;
-        if (count % fallSpeed == 0)//一定間隔でミノを下に落とす
+        Vector3Int moveOffset = GetOffset();
+        SwitchCellTo(1, moveOffset);//セルをコントロールレイヤーに切り替え、moveOffset分移動させる
+        if (IsSwitchAble())
         {
-            moveOffset = Vector3Int.down;
-        }
-        SwitchCellToControl(moveOffset);//セルをコントロールレイヤーに切り替え、moveOffset分移動させる
-        if (MoveAble())
-        {
-            SwitchCellToBoard();//コントロールレイヤーに置いたセルを元に戻す
+            SwitchCellTo(0);//コントロールレイヤーに置いたセルを元に戻す
         }
         else
         {
-            SwitchCellToBoard(moveOffset*-1);//コントロールレイヤーに置いたセルを元に戻す
+            SwitchCellTo(0, moveOffset * -1);//コントロールレイヤーに置いたセルを元に戻す
             minoStuckFlag = true;
             return;
         }
-        count++;
+        time += Time.deltaTime;
     }
 
     //複数のセルを動かせるようにする
@@ -71,13 +67,22 @@ public class MinoControllerScript : MonoBehaviour
         minoSizeX = cells_.GetLength(1);
         cells = cells_;
         minoStuckFlag = false;
-        count = 0;
+        time = 0;
     }
     public void RemoveCells()//セルの操作をやめる
     {
         cells = null;
         minoStuckFlag = false;
-        count = 0;
+        time = 0;
+    }
+
+    Vector3Int GetOffset()
+    {
+        if (time % fallSpeed == 0)//一定間隔でミノを下に落とす
+        {
+            return Vector3Int.down;
+        }
+        return Vector3Int.zero;
     }
     
     bool IsStuck() { return minoStuckFlag; } //ミノが動かせなくなったかどうか(内部処理用)
@@ -85,38 +90,24 @@ public class MinoControllerScript : MonoBehaviour
     public bool RotateLeft() { return true; } //左回り(反時計回り)にまわす
     public bool RotateRight() { return true; }//右回り(時計回り)にまわす
 
-    void SwitchCellToControl()
+    void SwitchCellTo(int gridLayer)
     {
         for (int y = 0; y < minoSizeY; y++)
             for (int x = 0; x < minoSizeX; x++)
-                gameBoardS.SwitchCellLayer(0,cells[y, x]);
-    }
-    void SwitchCellToBoard()
-    {
-        for (int y = 0; y < minoSizeY; y++)
-            for (int x = 0; x < minoSizeX; x++)
-                gameBoardS.SwitchCellLayer(1,cells[y, x]);
+                gameBoardS.SwitchCellLayer(gridLayer, cells[y, x]);
     }
 
-    void SwitchCellToControl(Vector3Int moveOffset)
+    void SwitchCellTo(int gridLayer,Vector3Int moveOffset)
     {
         for (int y = 0; y < minoSizeY; y++)
             for (int x = 0; x < minoSizeX; x++)
             {
-                cells[y, x]=gameBoardS.SwitchCellLayerTo(0,cells[y, x], moveOffset);
-            }
-    }
-    void SwitchCellToBoard(Vector3Int moveOffset)
-    {
-        for (int y = 0; y < minoSizeY; y++)
-            for (int x = 0; x < minoSizeX; x++)
-            {
-                cells[y, x]=gameBoardS.SwitchCellLayerTo(1,cells[y, x], moveOffset);
+                cells[y, x]=gameBoardS.SwitchCellLayerTo(gridLayer, cells[y, x], moveOffset);
             }
     }
     
     //コントロールレイヤーに置いたセルが表示レイヤーのセルとかぶらないか
-    bool MoveAble()
+    bool IsSwitchAble()
     {
         for (int y = 0; y < minoSizeY; y++)
             for (int x = 0; x < minoSizeX; x++)
@@ -130,5 +121,10 @@ public class MinoControllerScript : MonoBehaviour
     //格納している配列のマス[cell.y,cell.x]の座標に
     //オブジェクトがないときtrueを返す
     private bool IsNull(Vector2Int cell) { return cell.x == -1 || cell.y == -1; }
+
+    public Vector2Int[,] GetControllCoods()
+    {
+        return cells;
+    }
 
 }

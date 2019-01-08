@@ -13,16 +13,7 @@ public class PlayerInput : MonoBehaviour
         KEY_CANCEL,//Bボタン　左回転
         KEY_HOLD//Lボタン or R
     }
-    public PlayerInfo.Player[] Player = new PlayerInfo.Player[PlayerInfo.MaxPlayerNum];
-    //入力状態を一気に取得したほうがいいかと思ったけどまだ未実装
-    /*private GamepadState[] state = new GamepadState[4];
-    public void GetInputAll(GamepadState[] mState)
-    {
-        for(int i=0; i < 4; i++)
-        {
-            state[i] = GamePad.GetState((GamePad.Index)i);
-        }
-    }*/
+    public PlayerInfo.Player[] Player;
 
    public int GetInput(int playerNum, KEY_INPUT key)//入力があれば1or-1、なければ0を返す　もしコントローラーが登録されてなければー２
     {
@@ -135,11 +126,20 @@ public class PlayerInput : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        Player = new PlayerInfo.Player[PlayerInfo.MaxPlayerNum];
+        //入力状態を一気に取得したほうがいいかと思ったけどまだ未実装
+        /*private GamepadState[] state = new GamepadState[4];
+        public void GetInputAll(GamepadState[] mState)
+        {
+            for(int i=0; i < 4; i++)
+            {
+                state[i] = GamePad.GetState((GamePad.Index)i);
+            }
+        }*/
     }
 
-    // Update is called once per frame
-    void Update()
+// Update is called once per frame
+void Update()
     {
 
     }

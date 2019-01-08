@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\FallenMinoDrawerScript.cs" />
     <Compile Include="Assets\Scripts\CanvasAnimationScript.cs" />
     <Compile Include="Assets\Scripts\CellScript.cs" />
     <Compile Include="Assets\Scripts\GameBoardScript.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Assets\Scripts\MinoScript.cs" />
     <Compile Include="Assets\Scripts\NextContainerScript.cs" />
     <Compile Include="Assets\Scripts\NextMinoContainer.cs" />
+    <Compile Include="Assets\Scripts\NextMinoContainerListScript.cs" />
     <Compile Include="Assets\Scripts\UsefulFunctions.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
