@@ -3,7 +3,12 @@ guid: c62c464c8dbe85642aac0150f529d43f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - In: {instanceID: 0}
+  - JoyCon: {fileID: 21300000, guid: f384631b4cb0656439dfb302ad559c4f, type: 3}
+  - Nothing: {fileID: 21300000, guid: 6c62e3245cb649c4fa804698725e751c, type: 3}
+  - KeyBoard1: {fileID: 21300000, guid: 6244d90014077324e95e8bfc735eb2ce, type: 3}
+  - KeyBoard2: {fileID: 21300000, guid: b4c238255bed0e1459c754a0badc7a26, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
