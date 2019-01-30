@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//もっぱらデバッグ用
+
+[RequireComponent(typeof(PlayerInput))]
 public class Game : MonoBehaviour {
-    PlayerInput PlInput = GetComponent<PlayerInput>(); //できない！！！！！！なんで！！！！
+    PlayerInput PlInput;
 	// Use this for initialization
 	void Start () {
+        PlInput = GetComponent<PlayerInput>();
         Debug.Log("Debug start\n");
         PlInput.ChangePlConkind(0, PlayerInfo.eConKind.JOYCON);
 	}

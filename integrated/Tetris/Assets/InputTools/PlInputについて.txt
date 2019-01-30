@@ -1,0 +1,40 @@
+public class PlInput : MonoBehaviour
+{
+    public const int MaxPlayerNum = 2;//最大プレイ人数
+    public const int MaxKey = 5;//キーの数
+    public enum ConKind
+    {
+        NOTHING,//初期状態
+        KEYBOARD1,//キーボード１移動がFPS仕様のwasd,回転が←、→、ホールドがスペース
+        KEYBOARD2,//キーボード２移動が矢印、ｚｘで回転、ホールドがスペース
+        JOYCON//joycon
+    }
+    public enum Key
+    {
+        KEY_HORIZON,//右が１、左がー１
+        KEY_VERTICAL,//上が１、下がー１
+        KEY_SUBMIT,//Aボタン　右回転
+        KEY_CANCEL,//Bボタン　左回転
+        KEY_HOLD//Lボタン or R
+    }
+    public class Playerinfo//プレイヤーの情報を持っておく 他に追加するかもしれないので一応クラスにしておく
+    {
+        public ConKind ConKind;//コントローラーの種類
+                               //     int playerNum;//通常配列の添え字と同じプレイヤー番号になるからいらない？
+        public Playerinfo()
+        {
+            ConKind = ConKind.NOTHING;
+
+        }
+    }
+   public int GetInput(int playerNum, Key key)//Update毎の入力を返す　押されていれば1 or -1 なければ0
+
+   public int GetInput1(int playerNum, int key)//Update毎の入力を返す　押されていれば1 or -1 なければ0
+
+   public int GetInputDown(int playerNum, Key key)//ボタンが押されたときにのみ1or-1を返す
+
+   public int GetInputDown1(int playerNum, int key)//key をint で渡せる関数一応範囲外ならDebug.Logを出します。
+
+   public int ChangePlConkind(int playerNum,ConKind ConKind)//ConKindを変更する　変更できれば0、失敗すれば-1
+
+   public int GetInput2(int playerNum, Key key)//GetInput2した時点での入力状態を返す
