@@ -18,7 +18,7 @@ public class MinoGeneratorScript : MonoBehaviour {
 	void Update () {
 		
 	}
-
+    //ミノを生成し、返します
     public GameObject GetMino()
     {
         return UsefulFunctions.CloneObject(minoPrefab[Random.Range(0, minoPrefab.Length)]);
