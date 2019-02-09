@@ -8,15 +8,17 @@ using UnityEngine.UI;//Buttonクラスのスクリプトの参照用
 //
 public class GameSceneController : MonoBehaviour {
     //各クラスの参照
+    [Header("Scene Object References")]
     public GameObject gameBoard;
     public GameObject nextMino;
     public GameObject minoController;
     //UIの参照
+    [Header("UI References")]
     public GameObject readyCanvasPrefab;
     public GameObject endDialogPrefab;
-    
+
     //シーンの状態を表す変数
-    public enum GameState
+    private enum GameState
     {
         Null,
         Ready,

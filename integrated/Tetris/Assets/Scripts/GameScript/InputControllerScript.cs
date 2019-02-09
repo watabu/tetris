@@ -3,17 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InputControllerScript : MonoBehaviour {
+    [Header("Input Script Reference")]
     public PlInput input;
+    private void Awake()
+    {
+    }
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start ()
+    {
+        //入力方法の初期化
+        //今はとりあえずConKind.KEYBOARD1で
+        input.ChangePlConkind(0, PlInput.ConKind.KEYBOARD1);//移動がwasd,回転が←、→、ホールドがスペース
+        input.ChangePlConkind(1, PlInput.ConKind.KEYBOARD1);//移動がwasd,回転が←、→、ホールドがスペース
+        PlInput.Player[1].JoyConNum = 1;
+        PlInput.Player[1].JoyConNum = 1;
+    }
 
+    // Update is called once per frame
+    void Update () {
+		
+	}
+    //playernumのIDの入力の方向を取得する
     public Vector3Int GetInputDirection(int playerNum)
     {
         Vector3Int direction = new Vector3Int();
@@ -21,6 +31,16 @@ public class InputControllerScript : MonoBehaviour {
         direction.y=input.GetInput2(playerNum,PlInput.Key.KEY_VERTICAL);
         direction.z=0;
         return direction;
+    }
+    //ボタンが押されていたら1を返す
+    public int GetInput(int playerNum,PlInput.Key key)
+    {
+        return input.GetInput2(playerNum, key);
+    }
+    //ボタンが押された瞬間だったら1or-1を返す
+    public int GetInputDown(int playerNum, PlInput.Key key)
+    {
+        return input.GetInputDown(playerNum, key);
     }
 
 }

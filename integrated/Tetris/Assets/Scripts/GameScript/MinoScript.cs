@@ -11,6 +11,7 @@ public class MinoScript : MonoBehaviour {
 
     public Tile cellPrefab;//ミノ１つ１つを構成するセルのクラスの参照
     public String[] cellState; //ミノの形を指定するデータ   
+
     bool[,] cellFlag;//cellFlag[y,x]のように参照 (true : セルが存在 false : セルがない )
     int minoLengthY;
     int minoLengthX;
@@ -59,7 +60,7 @@ public class MinoScript : MonoBehaviour {
     }
 
     //ミノクラスからセルを１つのゲームオブジェクトとして返す
-    //
+    //返り値のゲームオブジェクトはセル１つ１つを子要素として持つ
     public GameObject AsSprite()
     {
         GameObject output =new GameObject();
