@@ -13,8 +13,8 @@ public class InputControllerScript : MonoBehaviour {
     {
         //入力方法の初期化
         //今はとりあえずConKind.KEYBOARD1で
-        input.ChangePlConkind(0, PlInput.ConKind.KEYBOARD1);//移動がwasd,回転が←、→、ホールドがスペース
-        input.ChangePlConkind(1, PlInput.ConKind.KEYBOARD1);//移動がwasd,回転が←、→、ホールドがスペース
+        input.ChangePlConkind(0, PlInput.ConKind.KEYBOARD1);//移動がwasd,回転がK、L、ホールドがスペース
+        input.ChangePlConkind(1, PlInput.ConKind.KEYBOARD1);//移動がwasd,回転がK、L、ホールドがスペース
         PlInput.Player[1].JoyConNum = 1;
         PlInput.Player[1].JoyConNum = 1;
     }

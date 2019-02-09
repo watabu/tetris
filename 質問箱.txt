@@ -1,4 +1,0 @@
-解像度ってそろえたほうがいい？
-素材ってどうしてる（背景とか）？
-PlayerInputの GetInput()から入力しようとしてるんだけど、
-PlayerInputが静的じゃないとかaddcomponentしてもnullだとか言われて困ってる。

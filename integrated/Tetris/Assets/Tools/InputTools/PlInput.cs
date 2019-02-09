@@ -2,7 +2,13 @@
 using System.Collections;
 using GamepadInput;
 
-
+/* メモ
+ * ボタンを押された状態が関数が呼び出されたタイミングで左右されないようにしたものは
+ * return Keystatus[][][]みたいになってる。
+ * 関数が呼ばれた瞬間のボタンの状態を返すのはGetInput2 
+ * ってふうにやってみたけど意味ないよって感じだったら教えてください。
+ * 2/9に、キーボード１の回転のキーが矢印じゃなくてK,Lにしたのを忘れてたのでコメント文だけ変更
+ */
 public class PlInput : MonoBehaviour
 {
     public const int MaxPlayerNum = 2;//最大プレイ人数
@@ -10,7 +16,7 @@ public class PlInput : MonoBehaviour
     public enum ConKind
     {
         NOTHING,//初期状態
-        KEYBOARD1,//キーボード１移動がFPS使用のwasd,回転が←、→、ホールドがスペース
+        KEYBOARD1,//キーボード１移動がFPS使用のwasd,回転がK、L、ホールドがスペース
         KEYBOARD2,//キーボード２移動が矢印、ｚｘで回転、ホールドがスペース
         JOYCON//joycon
     }
@@ -193,7 +199,7 @@ public class PlInput : MonoBehaviour
         return -2;//エラー ConKindがNOTHINGのときとか
     }
 
-    private void Awake()
+    private void Awake()//Startから内容をうつした
     {
         Keystatus = new int[MaxPlayerNum][][];
         for (int i = 0; i < MaxPlayerNum; i++)
@@ -216,7 +222,7 @@ public class PlInput : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()//毎秒ボタンを監視する
+    void Update()//毎秒ボタンを監視する 
     {
         for (int i = 0; i < MaxPlayerNum; i++)
         {

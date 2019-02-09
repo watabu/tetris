@@ -4,14 +4,16 @@ using UnityEngine.SceneManagement;
 //色々なシーンで使うボタンの機能
 public class ButtonFunction : MonoBehaviour
 {
-    AudioSource SE_Submit;
-    AudioSource SE_Cancel;
+     AudioSource SE_Submit;
+     AudioSource SE_Cancel;
 
-    private void Start()
+    private void Awake()
     {
         AudioSource[] audioSources = GetComponents<AudioSource>();
+        Debug.Log(audioSources[0]);
+        Debug.Log(audioSources[1]);
         SE_Submit = audioSources[1];
-        SE_Cancel = audioSources[0];
+       SE_Cancel = audioSources[0];
     }
 
     public void MoveToConConect1()//一人用画面へ
@@ -33,7 +35,14 @@ public class ButtonFunction : MonoBehaviour
     {
         SceneManager.LoadScene("Setting");
         SE_Submit.PlayOneShot(SE_Submit.clip);
+       
     }
-
-
+    public void _SE_Submit()
+    {
+        SE_Submit.PlayOneShot(SE_Submit.clip);
+    }
+    public void _SE_Cancel()
+    {
+        SE_Submit.PlayOneShot(SE_Cancel.clip);
+    }
 }
