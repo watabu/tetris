@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\GameScript\MinoScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\NextContainerScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\NextMinoContainer.cs" />
+    <Compile Include="Assets\Scripts\GameScript\OjamaBlock.cs" />
     <Compile Include="Assets\Scripts\GameScript\TilemapPreview.cs" />
     <Compile Include="Assets\Scripts\GameScript\UsefulFunctions.cs" />
     <Compile Include="Assets\Scripts\SceneMgrs\ConConect1.cs" />

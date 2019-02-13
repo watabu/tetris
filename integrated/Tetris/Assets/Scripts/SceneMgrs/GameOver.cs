@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GameOver : MonoBehaviour {
 
+    //int[] score = new int[2]; //そのうち
+    
+
+
 	// Use this for initialization
 	void Start () {
 		

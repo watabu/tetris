@@ -8,6 +8,7 @@ using GamepadInput;
  * 関数が呼ばれた瞬間のボタンの状態を返すのはGetInput2 
  * ってふうにやってみたけど意味ないよって感じだったら教えてください。
  * 2/9に、キーボード１の回転のキーが矢印じゃなくてK,Lにしたのを忘れてたのでコメント文だけ変更
+ *2/13 GetInputdeltaを追加　移動速度をやんわりできるように
  */
 public class PlInput : MonoBehaviour
 {
@@ -44,8 +45,34 @@ public class PlInput : MonoBehaviour
 
     static public  Playerinfo[] Player;
     static int[][][] Keystatus;
+    static double[][] KeyPushcount; //キーが押され続けている時間をカウント
 
-
+    public int GetInputdelta(int playerNum,Key key, double deltatime)//deltatime秒に一回押されている状態（１，－１）を返す
+    {
+        /*横に移動するときに一秒ボタンが押しっぱなしのときに２個ぶん移動するようにしたい、ってときに
+         * GetInputdelta(playerNum, key, 0.5) とするとおしっぱの時は一秒に２回だけ、１、－１を返し他のときには０を返す
+         * 他はGetInputDown()と同じように使える
+         */
+        if (GetInput(playerNum, key)==0)//押されていない
+        {
+            KeyPushcount[playerNum][(int)key] = 0;//初期化
+            return 0;
+        }else if (GetInputDown(playerNum, key) != 0)//押された瞬間
+        {
+            KeyPushcount[playerNum][(int)key] = 0;//初期化
+            return GetInputDown(playerNum, key);
+        }
+        else//押され続けている
+        {
+            KeyPushcount[playerNum][(int)key] += 1 * Time.deltaTime;
+            if (KeyPushcount[playerNum][(int)key] > deltatime)
+            {
+                KeyPushcount[playerNum][(int)key] = 0;//初期化
+                return GetInput(playerNum, key);//押されているやつ　１かー１
+            }
+            return 0;
+        }       
+    }
     public int GetInput(int playerNum, Key key)//Update毎の入力を返す　押されていれば1 or -1 なければ0
     {
         return Keystatus[playerNum][(int)key][0];
@@ -202,9 +229,11 @@ public class PlInput : MonoBehaviour
     private void Awake()//Startから内容をうつした
     {
         Keystatus = new int[MaxPlayerNum][][];
+        KeyPushcount = new double[MaxPlayerNum][];
         for (int i = 0; i < MaxPlayerNum; i++)
         {
             Keystatus[i] = new int[MaxKey][];
+            KeyPushcount[i] = new double[MaxKey];
             for (int j = 0; j < MaxKey; j++)
             {
                 Keystatus[i][j] = new int[2];
@@ -215,6 +244,7 @@ public class PlInput : MonoBehaviour
         Player = new Playerinfo[MaxPlayerNum];
         Player[0] = new Playerinfo();
         Player[1] = new Playerinfo();
+
     }
     // Use this for initialization
     void Start()
