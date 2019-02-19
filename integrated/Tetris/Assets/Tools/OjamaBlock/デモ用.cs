@@ -1,15 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-//おじゃまブロックの送受信とかRENの処理
-public class OjamaBlock : MonoBehaviour
+//おじゃまブロックの送受信とかRENの処理 AwakeとStartが違うだけ
+//見本用
+public class デモ用 : MonoBehaviour
 {
     public const int MaxPlayerNum = PlInput.MaxPlayerNum;
     public const int MaxRen = 30;
     int[][] OjamaStock;//送られたおじゃまブロックの列の数
     int[] RenNum;//プレイヤーが何RENか
-  
+
 
     public void SendOjama(int playerNum, int lineNum)//何列消したかを送って処理してもらう　０でも送ること
     {//毎フレーム呼ぶとRENが途切れてしまう仕様なのでブロックが固定されたら呼ぶ感じ？
@@ -31,36 +31,32 @@ public class OjamaBlock : MonoBehaviour
             while (i < MaxRen)
             {
                 if (OjamaStock[victim][i] == 0)//i=0から順番に入れてく
-                {       
-                    if (ClearLineToOjamaNum(lineNum)==0)//
+                {
+                    if (ClearLineToOjamaNum(lineNum) == 0)//
                     {
-                       OjamaStock[victim][i] = RenToOjamaNum(RenNum[playerNum]);//RENの分
+                        OjamaStock[victim][i] = RenToOjamaNum(RenNum[playerNum]);//RENの分
                     }
                     else
                     {
-                       OjamaStock[victim][i] = ClearLineToOjamaNum(lineNum);  //消した数の分
-                       OjamaStock[victim][i + 1] = RenToOjamaNum(RenNum[playerNum]);//RENの分
+                        OjamaStock[victim][i] = ClearLineToOjamaNum(lineNum);  //消した数の分
+                        OjamaStock[victim][i + 1] = RenToOjamaNum(RenNum[playerNum]);//RENの分
                     }
                     break;
-                  
+
                 }
                 i++;
             }
             
         }
     }
-
-    public void GetOjama(int playerNum)//おじゃまブロックをintでもらう？セルを直接いじって生成してもらう？
+    public void GetOjama(int playerNum)//おじゃまブロックをintでもらう？セルをいじってもらう？
     {
 
     }
-
-
-
     public int ClearLineToOjamaNum(int num)//消した列の数からおじゃまブロックの列数を返す
     {
         if (num < 2) return 0;
-        else if (num < 4) return num-1;
+        else if (num < 4) return num - 1;
         else if (num == 4) return 4;
         else
         {
@@ -69,7 +65,7 @@ public class OjamaBlock : MonoBehaviour
         }
     }
 
-     public int RenToOjamaNum(int Ren)//Renの数からおじゃまブロックの列数を返す
+    public int RenToOjamaNum(int Ren)//Renの数からおじゃまブロックの列数を返す
     {
         if (Ren < 2) return 0;
         else if (Ren < 4) return 1;
@@ -82,41 +78,26 @@ public class OjamaBlock : MonoBehaviour
         }
     }
 
-    public int Ren(int playerNum)
-    {
-        return RenNum[playerNum];
-    }//現在のREN数を返す
-    public void ResetRen(int playerNum)//Renを０にする
-    {
-        RenNum[playerNum] = 0;
-    }
-    public void ResetOjamaStock(int playerNum)//おじゃまストックを０にする
-    {
-        for (int i = 0; i < MaxRen; i++)
-        {
-            OjamaStock[playerNum][i] = 0;
-        }
-    }
 
     private void Awake()
     {
-      
+
         OjamaStock = new int[MaxPlayerNum][];
         RenNum = new int[MaxRen];
-        
+
         for (int i = 0; i < MaxPlayerNum; i++)
         {
             OjamaStock[i] = new int[MaxRen];
             RenNum[i] = -1;
         }
-        
+
     }
-    
-    // デバッグ用
+
+    // Start is called before the first frame update
     void Start()
     {
         for (int i = 0; i < MaxPlayerNum; i++)
-        {    
+        {
             RenNum[i] = -1;
         }
 
@@ -131,12 +112,13 @@ public class OjamaBlock : MonoBehaviour
             Debug.Log(OjamaStock[1][i]);
 
         }
-       
+
     }
-    
+
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
+
