@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//使い方見本
 //おじゃまブロックの送受信とかRENの処理
 public class OjamaBlock : MonoBehaviour
 {
@@ -9,9 +9,10 @@ public class OjamaBlock : MonoBehaviour
     public const int MaxRen = 30;
     int[][] OjamaStock;//送られたおじゃまブロックの列の数
     int[] RenNum;//プレイヤーが何RENか
-  
+    bool backtoback;//未実装 
+    bool Tspin;//未実装
 
-    public void SendOjama(int playerNum, int lineNum)//何列消したかを送って処理してもらう　０でも送ること
+    public void SendOjama(int playerNum, int lineNum)//何列消したかを送って処理してもらう　０でも送ること（RENの処理）
     {//毎フレーム呼ぶとRENが途切れてしまう仕様なのでブロックが固定されたら呼ぶ感じ？
 
         int i;
@@ -27,19 +28,58 @@ public class OjamaBlock : MonoBehaviour
             {
                 victim = Random.Range(0, MaxPlayerNum);//0からMaxPlayerNum-1まで
             }
+
             i = 0;
             while (i < MaxRen)
             {
                 if (OjamaStock[victim][i] == 0)//i=0から順番に入れてく
-                {       
-                    if (ClearLineToOjamaNum(lineNum)==0)//
+                {
+                    if (ClearLineToOjamaNum(lineNum) > 0)//送る列が０でない
                     {
-                       OjamaStock[victim][i] = RenToOjamaNum(RenNum[playerNum]);//RENの分
+                        OjamaStock[playerNum][0] -= ClearLineToOjamaNum(lineNum);//とりあえず相殺
+
+                        while (OjamaStock[playerNum][0] <= 0 && OjamaStock[playerNum][1] > 0)//先頭のおじゃまが０以下なら配列をずらす
+                        {
+                            OjamaStock[playerNum][0] += OjamaStock[playerNum][1];
+                            for (int j = 1; j < MaxRen - 1; j++)
+                            {
+                                OjamaStock[playerNum][j] = OjamaStock[playerNum][j + 1];
+                            }
+                            OjamaStock[playerNum][MaxRen - 1] = 0;
+                        }
+                        //相殺しきってあまったらOjamaStock[][0]が負のままになる
+                        if (OjamaStock[playerNum][0] < 0)
+                        {
+                            OjamaStock[victim][i] = -OjamaStock[playerNum][0];  //消した数の分
+                            OjamaStock[playerNum][0] = 0;
+                        }
                     }
-                    else
+                    if (RenToOjamaNum(RenNum[playerNum]) > 0)//RENによる送る列が０でない
                     {
-                       OjamaStock[victim][i] = ClearLineToOjamaNum(lineNum);  //消した数の分
-                       OjamaStock[victim][i + 1] = RenToOjamaNum(RenNum[playerNum]);//RENの分
+                        OjamaStock[playerNum][0] -= RenToOjamaNum(RenNum[playerNum]);//とりあえず相殺
+
+                        while (OjamaStock[playerNum][0] <= 0 && OjamaStock[playerNum][1] > 0)//先頭のおじゃまが０以下なら配列をずらす
+                        {
+                            OjamaStock[playerNum][0] += OjamaStock[playerNum][1];
+                            for (int j = 1; j < MaxRen - 1; j++)
+                            {
+                                OjamaStock[playerNum][j] = OjamaStock[playerNum][j + 1];
+                            }
+                            OjamaStock[playerNum][MaxRen - 1] = 0;
+                        }
+                        //相殺しきってあまったらOjamaStock[][0]が負のままになる
+                        if (OjamaStock[playerNum][0] < 0)
+                        {
+                            if (OjamaStock[victim][i] == 0)
+                            {
+                                OjamaStock[victim][i] = -OjamaStock[playerNum][0];  //消した数の分                                                       
+                            }
+                            else if (i + 1 < MaxRen)
+                            {
+                                OjamaStock[victim][i + 1] = -OjamaStock[playerNum][0];  //消した数の分
+                            }
+                            OjamaStock[playerNum][0] = 0;
+                        }
                     }
                     break;
                   
@@ -52,6 +92,11 @@ public class OjamaBlock : MonoBehaviour
 
     public void GetOjama(int playerNum)//おじゃまブロックをintでもらう？セルを直接いじって生成してもらう？
     {
+        //OjamaStockからいろいろする
+        for(int i = 0; i < MaxRen; i++)
+        {
+            //OjamaStock[playerNum][i]
+        }
 
     }
 
@@ -82,10 +127,20 @@ public class OjamaBlock : MonoBehaviour
         }
     }
 
-    public int Ren(int playerNum)
+    public int TotalOjama(int playerNum)//現在のおじゃまの列数を返す
+    {
+        int sum = 0;
+        for(int i = 0; i < MaxRen; i++)
+        {
+            sum += OjamaStock[playerNum][i];
+        }
+        return sum;
+    }
+
+    public int Ren(int playerNum)//現在のREN数を返す
     {
         return RenNum[playerNum];
-    }//現在のREN数を返す
+    }
     public void ResetRen(int playerNum)//Renを０にする
     {
         RenNum[playerNum] = 0;
@@ -97,6 +152,8 @@ public class OjamaBlock : MonoBehaviour
             OjamaStock[playerNum][i] = 0;
         }
     }
+
+
 
     private void Awake()
     {
@@ -111,27 +168,43 @@ public class OjamaBlock : MonoBehaviour
         }
         
     }
-    
+
     // デバッグ用
     void Start()
     {
         for (int i = 0; i < MaxPlayerNum; i++)
-        {    
+        {
             RenNum[i] = -1;
         }
 
-        for (int i = 0; i < 5; i++)
-        {
-            SendOjama(0, i);
-            Debug.Log(RenNum[0]);
-            //0,1,2,3,4列送る
-        }
-        for (int i = 0; i < 10; i++)
+        SendOjama(0, 4);
+        SendOjama(0, 0);
+        SendOjama(0, 3);
+        SendOjama(0, 3);
+        SendOjama(0, 3);
+        Debug.Log(RenNum[0]);
+        //0,1,2,3,4列送る
+    
+        for (int i = 0; i < 6; i++)
         {
             Debug.Log(OjamaStock[1][i]);
 
         }
-       
+        SendOjama(1, 3);//2
+        SendOjama(1, 3);//2
+        SendOjama(1, 3);//2+1
+        Debug.Log("player2");
+        for (int i = 0; i < 6; i++)
+        {
+            Debug.Log(OjamaStock[1][i]);
+
+        }
+        Debug.Log("player1");
+        for (int i = 0; i < 6; i++)
+        {
+            Debug.Log(OjamaStock[0][i]);
+
+        }
     }
     
     // Update is called once per frame
