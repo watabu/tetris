@@ -200,7 +200,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f3e3c50e425334d90653d5052db062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minoController: {fileID: 1988452643}
 --- !u!114 &44195492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,6 +394,7 @@ Transform:
   - {fileID: 489536618}
   - {fileID: 1855190488}
   - {fileID: 1108730159}
+  - {fileID: 410726714}
   m_Father: {fileID: 1950347313}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1277,6 +1277,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 410726714}
+  - component: {fileID: 410726713}
   m_Layer: 0
   m_Name: FallenMinoDrawer
   m_TagString: Untagged
@@ -1284,6 +1285,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &410726713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410726712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8b3d528d7bc90f4996fd26a7cfc16de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minoController: {fileID: 1988452643}
+  gameBoard: {fileID: 1950347312}
+  minoAlpha: 0.32
 --- !u!4 &410726714
 Transform:
   m_ObjectHideFlags: 0
@@ -1291,12 +1307,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410726712}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.3712659, y: -0.15228873, z: -0.037109375}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 122229074}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &425246303
 GameObject:
@@ -1954,7 +1970,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &489536617
 GameObject:
@@ -3849,7 +3865,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &644808489
 GameObject:
@@ -3894,7 +3910,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &644808492
 MonoBehaviour:
@@ -3972,7 +3988,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &825509628
 GameObject:
@@ -6393,7 +6409,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1677603360
 GameObject:
@@ -6443,7 +6459,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1724031461
 GameObject:
@@ -6494,7 +6510,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1810454239 stripped
 GameObject:
@@ -6795,7 +6811,7 @@ GameObject:
   - component: {fileID: 1950347312}
   - component: {fileID: 1950347314}
   m_Layer: 0
-  m_Name: GameBoard
+  m_Name: 1PGameBoard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6865,7 +6881,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f3e3c50e425334d90653d5052db062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minoController: {fileID: 1988452643}
 --- !u!1 &1983310410 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1799716867784830, guid: 7917dd11f44fe4f44ad6b31b5ed97806,
@@ -6909,7 +6924,7 @@ GameObject:
   - component: {fileID: 1988452644}
   - component: {fileID: 1988452643}
   m_Layer: 0
-  m_Name: MinoController
+  m_Name: 1PMinoController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6929,6 +6944,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input: {fileID: 644808490}
   gameBoard: {fileID: 1950347311}
+  fallenMinoDrawer: {fileID: 410726713}
   playerID: 0
   fallSpeed: 23
   OnMinoStuck:
@@ -6936,6 +6952,22 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1950347312}
         m_MethodName: GetNextMino
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnMinoRegistered:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 410726713}
+        m_MethodName: SetMinoTile
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6963,7 +6995,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2009768500
 PrefabInstance:

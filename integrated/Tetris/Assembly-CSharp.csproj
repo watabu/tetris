@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\GameScript\GameSceneController.cs" />
     <Compile Include="Assets\Scripts\GameScript\MinoContainerScript\NextContainerScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\MinoContainerScript\NextMinoContainer.cs" />
+    <Compile Include="Assets\Scripts\GameScript\MinoScript\FallenMinoDrawer.cs" />
     <Compile Include="Assets\Scripts\GameScript\MinoScript\MinoControllerScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\MinoScript\MinoGeneratorScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\MinoScript\MinoScript.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Assets\Tools\InputTools\PlInput.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\Scripts\GameScript\響一メモ.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\Tools\InputTools\PlInputについて.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />

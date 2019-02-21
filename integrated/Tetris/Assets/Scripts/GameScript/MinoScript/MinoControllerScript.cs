@@ -14,6 +14,7 @@ public class MinoControllerScript : MonoBehaviour
     [Header("Object References")]
     public InputControllerScript input;//入力クラスの参照
     public GameObject gameBoard;//ボードの参照
+    public FallenMinoDrawer fallenMinoDrawer;
 
     [Header("Control Status")]
     [Range(0, 3)]
@@ -23,6 +24,8 @@ public class MinoControllerScript : MonoBehaviour
 
     [Header("Call Back Function"), SerializeField]
     UnityEvent OnMinoStuck;//ミノを動かせなくなったとき実行する関数を格納する変数
+    [SerializeField]
+    UnityEvent OnMinoRegistered;//ミノが登録されたとき実行する関数を格納する変数
 
     [Header("Private Property"), SerializeField]
     bool canMoveUp;//上にも動かせるかのフラグ(デバッグ用)
@@ -35,6 +38,7 @@ public class MinoControllerScript : MonoBehaviour
     [SerializeField]
     Vector3Int originCood;//ミノを格納する2次元配列の左下の座標
     int stuckCount = 0;//他のミノに何フレームぶつかっているか
+    GameObject mino;
 
     private GameBoardScript gameBoardS;//ゲームボードのスクリプトの参照
 
@@ -44,7 +48,10 @@ public class MinoControllerScript : MonoBehaviour
     //他のクラスでも参照するオブジェクトはこの関数の中で生成させるべき
     private void Awake()
     {
-        if (OnMinoStuck == null) OnMinoStuck = new UnityEvent(); //イベント・インスタンスの作成
+        //イベント・インスタンスの作成
+        if (OnMinoStuck == null) OnMinoStuck = new UnityEvent();
+        if (OnMinoRegistered == null) OnMinoRegistered = new UnityEvent();
+
         gameBoardS = gameBoard.GetComponent<GameBoardScript>();
     }
 
@@ -92,7 +99,6 @@ public class MinoControllerScript : MonoBehaviour
             else
             {
                 SwitchCellTo(BoardLayer.Controll, BoardLayer.Default, GetInsideOffset());//コントロールレイヤーに置いたセルを元に戻す
-               // if (moveOffset.x == 0) minoStuckFlag = true;
                 return;
             }
         }
@@ -103,7 +109,7 @@ public class MinoControllerScript : MonoBehaviour
 
     //複数のセルを動かせるように登録する
     //originCood_ は動かすミノの左下の座標
-    public void RegisterCells(Vector3Int[,] cells_, Vector3Int originCood_)
+    public void RegisterCells(GameObject mino_, Vector3Int[,] cells_, Vector3Int originCood_)
     {
         Debug.Log("mino registered");
         int height = cells_.GetLength(0), width = cells_.GetLength(1);
@@ -115,6 +121,8 @@ public class MinoControllerScript : MonoBehaviour
         minoStuckFlag = false;
         originCood = originCood_;
         count = 0;
+        mino = mino_;
+        OnMinoRegistered.Invoke();
     }
     public void RemoveCells()//セルの操作をやめる
     {
@@ -153,7 +161,6 @@ public class MinoControllerScript : MonoBehaviour
             for (int j = 0; j < cellSize; j++)
                 cells[i, j] = gameBoardS.SwitchCellLayerTo(baselayer, destlayer, cells[i, j], moveOffset);
     }
-
 
     void RotateCellTo(BoardLayer baselayer, BoardLayer destlayer, bool rotatesClockwise)
     {
@@ -245,29 +252,12 @@ public class MinoControllerScript : MonoBehaviour
     }
 
     //格納しているセルの座標が不正な値の時trueを返す
-    private bool IsNull(Vector3Int cell) { return cell.x == -100 && cell.y == -100 && cell.z == -100; }
+    private bool IsNull(Vector3Int cell) { return cell == GameBoardScript.nullCood; }
 
-    private bool HitsLeftWall()
-    {
-        foreach(var cell in cells)
-            if (gameBoardS.IsLeftWall(cell)) return true;
-        return false;
-    }
-    private bool HitsRIghtWall()
-    {
-        foreach (var cell in cells)
-            if (gameBoardS.IsRightWall(cell)) return true;
-        return false;
-    }
-    private bool HitsBottomWall()
-    {
-        foreach (var cell in cells)
-            if (gameBoardS.IsBottomWall(cell)) return true;
-        return false;
-    }
-
+    //動かすマスの座標のリストを返す
     public Vector3Int[,] GetControllCoods() { return cells; }
-
+    //動かすミノを返す
+    public GameObject GetMino() { return mino; }
 }
 
 
@@ -350,3 +340,22 @@ void FlipCellDiagTo(BoardLayer baselayer, BoardLayer destlayer)
          return new Vector3Int(0, 1, 0);
      }
      */
+
+/* private bool HitsLeftWall()
+ {
+     foreach(var cell in cells)
+         if (gameBoardS.IsLeftWall(cell)) return true;
+     return false;
+ }
+ private bool HitsRIghtWall()
+ {
+     foreach (var cell in cells)
+         if (gameBoardS.IsRightWall(cell)) return true;
+     return false;
+ }
+ private bool HitsBottomWall()
+ {
+     foreach (var cell in cells)
+         if (gameBoardS.IsBottomWall(cell)) return true;
+     return false;
+ }*/

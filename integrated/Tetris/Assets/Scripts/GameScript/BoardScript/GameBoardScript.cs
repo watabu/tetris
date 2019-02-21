@@ -15,6 +15,7 @@ public enum BoardLayer
 //セルの表示レイヤーとプログラムの制御用レイヤーがある
 //例えばセルを移動させるとき、いったん制御用レイヤーに全部移動させて
 //制御用レイヤーにあるセルが表示レイヤーにあるセルと重ならなかったら表示レイヤーに戻す処理を行う
+//2/19 GameBoardModifier.csと分離
 [RequireComponent(typeof(GameBoardModifier))]
 public class GameBoardScript : MonoBehaviour
 {
@@ -26,8 +27,8 @@ public class GameBoardScript : MonoBehaviour
     GameBoardModifier boardModifier;
 
     [Header("Tilemap References")]
-    public Tilemap tilemap;
-    public Tilemap controlTile;
+    public Tilemap tilemap;//表示させるタイルマップ
+    public Tilemap controlTile;//内部プログラム用タイルマップ(カメラには映らない)
 
     [Header("Board Filled")]
     [SerializeField] UnityEvent OnMinoFilled;//ミノが上まで積まれたとき実行する関数を格納する変数
@@ -47,10 +48,13 @@ public class GameBoardScript : MonoBehaviour
         get { return edgeCellCood[1].x - edgeCellCood[0].x; }
     }
 
+    public static Vector3Int nullCood;
+
     void Awake()
     {
         cellController.SetActive(false);//コントローラーを無効化
         if (OnMinoFilled == null) OnMinoFilled = new UnityEvent(); //イベント・インスタンスの作成
+        nullCood = new Vector3Int(-100, -100, -100);
     }
 
     // Use this for initialization
@@ -118,7 +122,7 @@ public class GameBoardScript : MonoBehaviour
                 {
                     cellscood[y, x] = new Vector3Int(-100, -100, -100);//そのマスにオブジェクトがない
                 }
-        cellController.GetComponent<MinoControllerScript>().RegisterCells(cellscood, generateCood);//どの座標のセルを移動させるかの情報を渡す
+        cellController.GetComponent<MinoControllerScript>().RegisterCells(mino,cellscood, generateCood);//どの座標のセルを移動させるかの情報を渡す
     }
 
 
@@ -176,7 +180,7 @@ public class GameBoardScript : MonoBehaviour
     {
         Tilemap tile = GetLayer(layer);
         bool ans=!tile.HasTile(new Vector3Int(cellX, cellY, 0));
-        TileBase obj = tile.GetTile(new Vector3Int(cellX, cellY, 0));
+        //TileBase obj = tile.GetTile(new Vector3Int(cellX, cellY, 0));
         /*Debug.Log("layer" + layer + ":" + cellX + "," + cellY + " is " + ans);
         Debug.Log("tile" + ":" +  " is " + obj??"null");*/
         return ans;
@@ -205,10 +209,9 @@ public class GameBoardScript : MonoBehaviour
         }
     }
 
-    public Vector3 TiletoWorld(Vector3Int cell)
-    {
-        return  tilemap.CellToWorld(cell);
-    }
+    public Vector3 CellToWorld(Vector3Int cell) { return  tilemap.CellToWorld(cell); }
+    public Vector3 CellToLocal(Vector3Int cell) { return  tilemap.CellToLocal(cell); }
+    public Vector3 WorldToCell(Vector3 worldCood) { return  tilemap.WorldToCell(worldCood); }
 
     void GenerateEdgeCood()
     {
