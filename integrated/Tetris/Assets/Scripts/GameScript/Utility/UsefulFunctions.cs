@@ -57,4 +57,26 @@ public class UsefulFunctions : MonoBehaviour
         }
     }
 
+    //配列arrayの要素がすべて関数bool func(Type element)の返り値でtrueを返すときtrue
+    //ex)
+    //bool oddNumberFlag=AllOf(int[] array,(int arg)=>{return arg % 2 == 1;}); 配列がすべて奇数のときtrueを返す
+    public bool AllOf<Type>(Type[] array, Func<Type,bool> func)
+    {
+        int count = 0;
+        foreach(var element in array)
+        {
+            if (func(element)) count++;
+        }
+        return count == array.Length;
+    }
+    //配列arrayの要素が１つでも関数bool func(Type element)の返り値でtrueを返すときtrue
+    public bool AnyOf<Type>(Type[] array, Func<Type, bool> func)
+    {
+        foreach (var element in array)
+        {
+            if (func(element)) return true;
+        }
+        return false;
+    }
+
 }

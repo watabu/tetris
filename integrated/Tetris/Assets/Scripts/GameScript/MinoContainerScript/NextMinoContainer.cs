@@ -6,7 +6,7 @@ using UnityEngine.Events;
 //Nextコンテナリストを制御するためのクラス
 //
 public class NextMinoContainer : MonoBehaviour {
-    public GameObject minoGenerator;
+    public MinoGeneratorScript minoGenerator;
 
     [Range(1,10)]
     public int nextContainerSize;//コンテナのサイズ
@@ -36,14 +36,14 @@ public class NextMinoContainer : MonoBehaviour {
     {
         for (int i = 0; i <= nextContainerSize; i++)
         {
-            Register(minoGenerator.GetComponent<MinoGeneratorScript>().GetMino());
+            Register(minoGenerator.GetMino());
         }
     }
 
     public GameObject GetNextMino()
     {
         GameObject obj= nextMinoEnd.GetComponent<NextContainerScript>().GetMino();
-        Register(minoGenerator.GetComponent<MinoGeneratorScript>().GetMino());
+        Register(minoGenerator.GetMino());
         return obj;
     }
 

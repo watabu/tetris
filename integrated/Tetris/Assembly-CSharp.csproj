@@ -64,10 +64,15 @@
     <Compile Include="Assets\Scripts\Functions\ButtonFunction.cs" />
     <Compile Include="Assets\Scripts\Functions\Token.cs" />
     <Compile Include="Assets\Scripts\Functions\Util.cs" />
+    <Compile Include="Assets\Scripts\GameScript\BoardScript\BoardMinoRegister.cs" />
+    <Compile Include="Assets\Scripts\GameScript\BoardScript\EraceManager.cs" />
     <Compile Include="Assets\Scripts\GameScript\BoardScript\GameBoardModifier.cs" />
     <Compile Include="Assets\Scripts\GameScript\BoardScript\GameBoardScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\CanvasAnimationScript.cs" />
+    <Compile Include="Assets\Scripts\GameScript\Effect\MinoEraceEffect.cs" />
+    <Compile Include="Assets\Scripts\GameScript\Effect\MinoFallenEffect.cs" />
     <Compile Include="Assets\Scripts\GameScript\GameSceneController.cs" />
+    <Compile Include="Assets\Scripts\GameScript\MinoContainerScript\HoldContainer.cs" />
     <Compile Include="Assets\Scripts\GameScript\MinoContainerScript\NextContainerScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\MinoContainerScript\NextMinoContainer.cs" />
     <Compile Include="Assets\Scripts\GameScript\MinoScript\FallenMinoDrawer.cs" />
@@ -75,8 +80,10 @@
     <Compile Include="Assets\Scripts\GameScript\MinoScript\MinoGeneratorScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\MinoScript\MinoScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\MinoScript\OjamaBlock.cs" />
+    <Compile Include="Assets\Scripts\GameScript\MinoScript\OjamaStuckScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\Utility\InputControllerScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\Utility\TilemapPreview.cs" />
+    <Compile Include="Assets\Scripts\GameScript\Utility\TileRigitBody2D.cs" />
     <Compile Include="Assets\Scripts\GameScript\Utility\UsefulFunctions.cs" />
     <Compile Include="Assets\Scripts\SceneMgrs\ConConect1.cs" />
     <Compile Include="Assets\Scripts\SceneMgrs\ConConect2.cs" />

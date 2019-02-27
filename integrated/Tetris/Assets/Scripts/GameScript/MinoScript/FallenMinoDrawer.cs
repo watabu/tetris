@@ -10,10 +10,15 @@ public class FallenMinoDrawer : MonoBehaviour
     [Header("Object Reference")]
     public MinoControllerScript minoController;
     public GameBoardScript gameBoard;
-    [Range(0.0f,1.0f)]
+    [Header("Mino draw option"),Range(0.0f,1.0f)]
     public float minoAlpha;
 
     Tile tile;
+
+    int minoHitBelowCount;//ミノが何マス下でぶつかるか
+    public int GetMinoStuckBelowCount() { return minoHitBelowCount; }
+
+    Vector3Int[,] cellCoods;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +29,8 @@ public class FallenMinoDrawer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        cellCoods = minoController.GetControllCoods();
+        minoHitBelowCount =CalculateMinoStuckBelowCount();
         GenerateFallenMino();
     }
 
@@ -31,7 +38,7 @@ public class FallenMinoDrawer : MonoBehaviour
     {
         if (minoController == null)
         {
-            Debug.Log("mino contoller is null");
+            Debug.LogWarning("mino contoller is null");
             return;
         }
         MinoScript mino=minoController.GetMino().GetComponent<MinoScript>();
@@ -60,15 +67,31 @@ public class FallenMinoDrawer : MonoBehaviour
 
     void GenerateFallenMino()
     {
-        Vector3Int[,] cellCoods = minoController.GetControllCoods();
-
         if (cellCoods == null)
         {
-            Debug.Log("controller tileCood is null");
+            Debug.LogWarning("controller tileCood is null");
             return;
         }
         Vector3Int[] ansCoods = new Vector3Int[4];
 
+        if (minoHitBelowCount != -1)
+        {
+            int count = 0;
+            foreach (var cell in cellCoods)
+            {
+                if (cell == GameBoardScript.nullCood) continue;
+                ansCoods[count] = cell + new Vector3Int(0, -minoHitBelowCount, 0);
+                count++;
+            }
+            GenerateMino(ansCoods);
+        }
+    }
+
+    //何マス下に来たとき壁やほかのミノに接地するかを計算する
+    //ぶつからない場合、-1を返す
+    int CalculateMinoStuckBelowCount()
+    {
+        if (cellCoods == null) return -1;
         int loopCount = 0;
         foreach (var cell in cellCoods)
             if (cell != GameBoardScript.nullCood)
@@ -77,42 +100,29 @@ public class FallenMinoDrawer : MonoBehaviour
                 break;
             }
 
-        bool stuckFlag = false;
-        for (int h = 0; h < loopCount+2; h++)//ボードの下(念のため+2マス)までにミノが置いてあるかチェック
+        for (int h = 0; h < loopCount + 2; h++)//ボードの下(念のため+2マス)までにミノが置いてあるかチェック
         {
             foreach (var cell in cellCoods)
             {
                 if (cell == GameBoardScript.nullCood) continue;
                 Vector3Int checkCood = cell + new Vector3Int(0, -h, 0);
-                if (!InArray(cellCoods, checkCood) &&!gameBoard.IsEmpty(BoardLayer.Default, checkCood))
+                if (!IsInArray(cellCoods, checkCood) &&
+                    !gameBoard.IsEmpty(BoardLayer.Default, checkCood) || !gameBoard.IsEmpty(BoardLayer.Wall, checkCood))
                 {
-                    stuckFlag = true;
-                    break;
+                    return h - 1;
                 }
-            }
-
-            if (stuckFlag)
-            {
-                int count = 0;
-                foreach (var cell in cellCoods)
-                {
-                    if (cell == GameBoardScript.nullCood) continue;
-                    ansCoods[count] = cell + new Vector3Int(0, -h+1, 0);
-                    count++;
-                }
-                GenerateMino(ansCoods);
-                break;//for(h~~)を抜ける
             }
         }
+        return -1;
     }
 
-    bool InArray(Vector3Int[] array,Vector3Int cood)
+    bool IsInArray(Vector3Int[] array,Vector3Int cood)
     {
         foreach (var i in array)
             if (cood == i) return true;
         return false;
     }
-    bool InArray(Vector3Int[,] array, Vector3Int cood)
+    bool IsInArray(Vector3Int[,] array, Vector3Int cood)
     {
         foreach (var i in array)
             if (cood == i) return true;
