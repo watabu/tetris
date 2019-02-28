@@ -5,13 +5,15 @@ using UnityEngine.UI;//Buttonクラスのスクリプトの参照用
 
 //ゲームの進行を管理するクラス
 //ゲームの開始時や終了時にUIを出させたり
+//ミノのコントローラに新しいミノを登録させる
 //
 public class GameSceneController : MonoBehaviour {
     //各クラスの参照
     [Header("Scene Object References")]
-    public GameObject gameBoard;
-    public GameObject nextMino;
+    public GameBoardScript gameBoard;
+    public NextMinoContainer nextMino;
     public GameObject minoController;
+    public BoardMinoRegister minoRegister;
     //UIの参照
     [Header("UI References")]
     public GameObject readyCanvasPrefab;
@@ -36,6 +38,7 @@ public class GameSceneController : MonoBehaviour {
         //UIの中のボタンが押されたときゲームを開始させるように関数を登録
         GameObject button = readyCanvas.transform.Find("Button").gameObject;
         button.GetComponent<Button>().onClick.AddListener(StartGame);
+        minoController.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -47,9 +50,10 @@ public class GameSceneController : MonoBehaviour {
     public void StartGame()
     {
         state=GameState.Ready;
-        nextMino.GetComponent<NextMinoContainer>().FillMinoList();
-        gameBoard.GetComponent<GameBoardScript>().Resume();
-        gameBoard.GetComponent<GameBoardScript>().GetNextMino();
+        nextMino.FillMinoList();
+        gameBoard.Resume();
+        minoController.SetActive(true);
+        MinoUpdate();
     }
 
     //ゲームを終了させる関数
@@ -58,6 +62,16 @@ public class GameSceneController : MonoBehaviour {
         /*nextMino.SetActive(false);
         gameBoard.SetActive(false);
         minoController.SetActive(false);*/
+    }
+
+    //新しいミノを生成させ、コントローラーに登録する関数
+    public void MinoUpdate()
+    {
+        MinoUpdate(nextMino.GetNextMino());
+    }
+    public void MinoUpdate(GameObject mino_)
+    {
+        minoRegister.RegisterMino(mino_);
     }
 
 
