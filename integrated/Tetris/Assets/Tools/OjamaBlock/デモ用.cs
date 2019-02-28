@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 //使い方見本
 //おじゃまブロックの送受信とかRENの処理
-public class OjamaBlock : MonoBehaviour
+public class デモ用 : MonoBehaviour
 {
     public const int MaxPlayerNum = PlInput.MaxPlayerNum;
     public const int MaxRen = 30;
     int[][] OjamaStock;//送られたおじゃまブロックの列の数
     int[] RenNum;//プレイヤーが何RENか
-    bool backtoback;//未実装 
-    bool Tspin;//未実装
+    bool backtoback;//未実装
 
     public void SendOjama(int playerNum, int lineNum)//何列消したかを送って処理してもらう　０でも送ること（RENの処理）
     {//毎フレーム呼ぶとRENが途切れてしまう仕様なのでブロックが固定されたら呼ぶ感じ？
@@ -92,11 +91,6 @@ public class OjamaBlock : MonoBehaviour
 
     public void GetOjama(int playerNum)//おじゃまブロックをintでもらう？セルを直接いじって生成してもらう？
     {
-        //OjamaStockからいろいろする
-        for(int i = 0; i < MaxRen; i++)
-        {
-            //OjamaStock[playerNum][i]
-        }
 
     }
 
@@ -127,16 +121,6 @@ public class OjamaBlock : MonoBehaviour
         }
     }
 
-    public int TotalOjama(int playerNum)//現在のおじゃまの列数を返す
-    {
-        int sum = 0;
-        for(int i = 0; i < MaxRen; i++)
-        {
-            sum += OjamaStock[playerNum][i];
-        }
-        return sum;
-    }
-
     public int Ren(int playerNum)//現在のREN数を返す
     {
         return RenNum[playerNum];
@@ -152,8 +136,6 @@ public class OjamaBlock : MonoBehaviour
             OjamaStock[playerNum][i] = 0;
         }
     }
-
-
 
     private void Awake()
     {
@@ -172,38 +154,54 @@ public class OjamaBlock : MonoBehaviour
     // デバッグ用
     void Start()
     {
+        int mode = 0;
         for (int i = 0; i < MaxPlayerNum; i++)
         {
             RenNum[i] = -1;
         }
 
-        SendOjama(0, 4);
-        SendOjama(0, 0);
-        SendOjama(0, 3);
-        SendOjama(0, 3);
-        SendOjama(0, 3);
-        Debug.Log(RenNum[0]);
-        //0,1,2,3,4列送る
-    
-        for (int i = 0; i < 6; i++)
+        if (mode == 0)//基本的な動作のテスト
         {
-            Debug.Log(OjamaStock[1][i]);
-
+            for (int i = 0; i < 5; i++)
+            {
+                SendOjama(0, i);//0,0,1,2,4
+                Debug.Log(RenNum[0]);
+            }
+            for (int i = 0; i < 6; i++)
+            {
+                Debug.Log(OjamaStock[1][i]);
+            }
         }
-        SendOjama(1, 3);//2
-        SendOjama(1, 3);//2
-        SendOjama(1, 3);//2+1
-        Debug.Log("player2");
-        for (int i = 0; i < 6; i++)
+        else if (mode == 2)//相殺のテスト
         {
-            Debug.Log(OjamaStock[1][i]);
+            SendOjama(0, 4);
+            SendOjama(0, 0);
+            SendOjama(0, 3);
+            SendOjama(0, 3);
+            SendOjama(0, 3);
+            Debug.Log(RenNum[0]);
+            //0,1,2,3,4列送る
 
-        }
-        Debug.Log("player1");
-        for (int i = 0; i < 6; i++)
-        {
-            Debug.Log(OjamaStock[0][i]);
+            for (int i = 0; i < 6; i++)
+            {
+                Debug.Log(OjamaStock[1][i]);
 
+            }
+            SendOjama(1, 3);//2
+            SendOjama(1, 3);//2
+            SendOjama(1, 3);//2+1
+            Debug.Log("player2");
+            for (int i = 0; i < 6; i++)
+            {
+                Debug.Log(OjamaStock[1][i]);
+
+            }
+            Debug.Log("player1");
+            for (int i = 0; i < 6; i++)
+            {
+                Debug.Log(OjamaStock[0][i]);
+
+            }
         }
     }
     
