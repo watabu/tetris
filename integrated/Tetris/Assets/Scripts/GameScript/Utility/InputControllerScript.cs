@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//3/1 Inputの変更、操作性の向上をしました
 public class InputControllerScript : MonoBehaviour {
     [Header("Input Script Reference")]
     public PlInput input;
@@ -30,8 +30,8 @@ public class InputControllerScript : MonoBehaviour {
         /*     direction.x=input.GetInput2(playerNum,PlInput.Key.KEY_HORIZON);
              direction.y=input.GetInput2(playerNum,PlInput.Key.KEY_VERTICAL);
              */
-        direction.x = input.GetInputdelta(playerNum, PlInput.Key.KEY_HORIZON,0.125);//一秒に８マス　もう少し早くてもいいかな？
-        direction.y = input.GetInputdelta(playerNum, PlInput.Key.KEY_VERTICAL,0.125);
+        direction.x = input.GetInputdelta(playerNum, PlInput.Key.KEY_HORIZON,0.0625);
+        direction.y = input.GetInputdelta2(playerNum, PlInput.Key.KEY_VERTICAL,0.125);
         direction.z=0;
         return direction;
     }

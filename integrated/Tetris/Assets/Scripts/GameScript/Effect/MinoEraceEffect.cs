@@ -23,4 +23,28 @@ public class MinoEraceEffect : MonoBehaviour
 
     }
 
+    public void TspinEffect(int playerNum, int yCount)//TSDとかTSMとか表示する
+    {
+        if (yCount == 1)
+        {
+
+        }
+        else if (yCount == 2)
+        {
+
+        }
+        else if (yCount == 3)
+        {
+
+        }
+
+
+        else
+        {
+
+            Debug.Log("error in MinoEraceEffect:yCount of TspinEffect");
+        }
+
+    }
+
 }

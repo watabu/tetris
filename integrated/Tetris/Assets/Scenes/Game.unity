@@ -8498,6 +8498,51 @@ PrefabInstance:
       objectReference: {fileID: 1983310410}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7917dd11f44fe4f44ad6b31b5ed97806, type: 3}
+--- !u!1 &506322307
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 506322309}
+  - component: {fileID: 506322308}
+  m_Layer: 0
+  m_Name: OjamaStuck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &506322308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506322307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dab7acdaf6a339d4db6abf8cc162c66f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pileSprite: {fileID: 0}
+  OjamaStuck: 0
+--- !u!4 &506322309
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506322307}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.6737315, y: -2.328153, z: 0.07942368}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &530596776
 GameObject:
   m_ObjectHideFlags: 0
@@ -15003,6 +15048,49 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &832669920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 832669922}
+  - component: {fileID: 832669921}
+  m_Layer: 0
+  m_Name: Ren
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &832669921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832669920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fea2a1bccff42f4b9010e1426d363f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &832669922
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832669920}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.6737315, y: -2.328153, z: 0.07942368}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &838923134
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16429,6 +16517,7 @@ GameObject:
   - component: {fileID: 1950347315}
   - component: {fileID: 1950347316}
   - component: {fileID: 1950347314}
+  - component: {fileID: 1950347317}
   m_Layer: 0
   m_Name: 1PGameBoard
   m_TagString: Untagged
@@ -16539,6 +16628,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  Ojama: {fileID: 0}
 --- !u!114 &1950347316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16556,6 +16646,18 @@ MonoBehaviour:
   gameBoard: {fileID: 1950347312}
   tilemap: {fileID: 134096023}
   generateCood: {x: 0, y: 0, z: 0}
+--- !u!114 &1950347317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950347311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ffde59013622544790c2b4f9b8e103e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1981315612
 GameObject:
   m_ObjectHideFlags: 0
@@ -16600,7 +16702,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab7acdaf6a339d4db6abf8cc162c66f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pileSprite: {fileID: 0}
+  pileSprite: {fileID: 21300000, guid: f611d596a91390846937f5a7baf90b48, type: 3}
+  OjamaStuck: 0
 --- !u!212 &1981315615
 SpriteRenderer:
   m_ObjectHideFlags: 0

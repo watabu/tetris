@@ -72,8 +72,11 @@ public class GameBoardModifier : MonoBehaviour
             if (xCount == width)//１行すべて埋まってたらリストに追加
                 yList.Add(y);
         }
-        if (yList.Count == 0) return;//もし埋まっている列がなかったら終了
-
+        if (yList.Count == 0)
+        {
+            OnMinoEraced.Invoke(0, minoController.GetMino());
+            return;//もし埋まっている列がなかったら終了
+        }
         OnMinoFilled.Invoke();
 
         foreach (var yLaw in yList)
@@ -89,6 +92,14 @@ public class GameBoardModifier : MonoBehaviour
         //return true;
     }
 
+    public void GenerateOjama(int playerNum)
+    {
+
+
+    }
+    
+
+    
     public void ClearCell()//ゲーム盤のミノを全消去する
     {
     }

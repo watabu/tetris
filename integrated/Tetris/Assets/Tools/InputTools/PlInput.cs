@@ -9,11 +9,13 @@ using GamepadInput;
  * ってふうにやってみたけど意味ないよって感じだったら教えてください。
  * 2/9に、キーボード１の回転のキーが矢印じゃなくてK,Lにしたのを忘れてたのでコメント文だけ変更
  *2/13 GetInputdeltaを追加　移動速度をやんわりできるように
+ * 3/1 GetInputdelta2を追加　おしっぱだと早く移動する、みたいな感じで使う
  */
 public class PlInput : MonoBehaviour
 {
     public const int MaxPlayerNum = 2;//最大プレイ人数
     public const int MaxKey = 5;//キーの数
+    public const double fixtime = 0.3;
     public enum ConKind
     {
         NOTHING,//初期状態
@@ -41,23 +43,24 @@ public class PlInput : MonoBehaviour
             JoyConNum = -1;//未登録
         }
     }//
-   
 
-    static public  Playerinfo[] Player;
+
+    static public Playerinfo[] Player;
     static int[][][] Keystatus;
     static double[][] KeyPushcount; //キーが押され続けている時間をカウント
 
-    public int GetInputdelta(int playerNum,Key key, double deltatime)//deltatime秒に一回押されている状態（１，－１）を返す
-    {
+    public int GetInputdelta2(int playerNum, Key key, double deltatime)//deltatime秒に一回押されている状態（１，－１）を返す
+    {//旧GetInputdelta()
         /*横に移動するときに一秒ボタンが押しっぱなしのときに２個ぶん移動するようにしたい、ってときに
          * GetInputdelta(playerNum, key, 0.5) とするとおしっぱの時は一秒に２回だけ、１、－１を返し他のときには０を返す
          * 他はGetInputDown()と同じように使える
          */
-        if (GetInput(playerNum, key)==0)//押されていない
+        if (GetInput(playerNum, key) == 0)//押されていない
         {
             KeyPushcount[playerNum][(int)key] = 0;//初期化
             return 0;
-        }else if (GetInputDown(playerNum, key) != 0)//押された瞬間
+        }
+        else if (GetInputDown(playerNum, key) != 0)//押された瞬間
         {
             KeyPushcount[playerNum][(int)key] = 0;//初期化
             return GetInputDown(playerNum, key);
@@ -71,7 +74,35 @@ public class PlInput : MonoBehaviour
                 return GetInput(playerNum, key);//押されているやつ　１かー１
             }
             return 0;
-        }       
+        }
+    }
+    public int GetInputdelta(int playerNum, Key key, double deltatime)//GetInputdelta　[(int)key + MaxKey]を管理している
+    {
+        //中身は大体GetInputdelta2と同じ  一定時間押され続けると高速移動みたいな
+        if (GetInput(playerNum, key) == 0)//押されていない
+        {
+            KeyPushcount[playerNum][(int)key + MaxKey] = 0;//初期化
+            return 0;
+        }
+        else if (GetInputDown(playerNum, key) != 0)//押された瞬間
+        {
+            KeyPushcount[playerNum][(int)key + MaxKey] = deltatime - fixtime;//初期化 一回目だけfixtimeたったら返すように
+
+            return GetInputDown(playerNum, key);
+        }
+        else//押され続けている
+        {
+            KeyPushcount[playerNum][(int)key + MaxKey] += 1 * Time.deltaTime;
+
+            if (KeyPushcount[playerNum][(int)key + MaxKey] > deltatime)
+            {
+                KeyPushcount[playerNum][(int)key + MaxKey] = 0;//初期化
+                return GetInput(playerNum, key);//押されているやつ　１かー１
+            }
+
+            return 0;
+        }
+
     }
     public int GetInput(int playerNum, Key key)//Update毎の入力を返す　押されていれば1 or -1 なければ0
     {
@@ -101,7 +132,7 @@ public class PlInput : MonoBehaviour
 
     public int GetInputDown1(int playerNum, int key)//key をint で渡せる関数一応範囲外ならDebug.Logを出します。
     {
-        if(key<0 || key >= MaxKey)
+        if (key < 0 || key >= MaxKey)
         {
             Debug.Log("error in GetInputDown1: keyが範囲外");
             return -2;
@@ -113,7 +144,7 @@ public class PlInput : MonoBehaviour
         return 0;
     }
 
-    public int ChangePlConkind(int playerNum,ConKind ConKind)//ConKindを変更する　変更できれば0、失敗すれば-1
+    public int ChangePlConkind(int playerNum, ConKind ConKind)//ConKindを変更する　変更できれば0、失敗すれば-1
     {
         if (ConKind != ConKind.NOTHING)
         {
@@ -226,14 +257,14 @@ public class PlInput : MonoBehaviour
         return -2;//エラー ConKindがNOTHINGのときとか
     }
 
-    private void Awake()//Startから内容をうつした
+    public void Awake()//Startから内容をうつした
     {
         Keystatus = new int[MaxPlayerNum][][];
         KeyPushcount = new double[MaxPlayerNum][];
         for (int i = 0; i < MaxPlayerNum; i++)
         {
             Keystatus[i] = new int[MaxKey][];
-            KeyPushcount[i] = new double[MaxKey];
+            KeyPushcount[i] = new double[MaxKey * 2];
             for (int j = 0; j < MaxKey; j++)
             {
                 Keystatus[i][j] = new int[2];
@@ -264,6 +295,6 @@ public class PlInput : MonoBehaviour
                 Keystatus[i][j][0] = GetInput2(i, (Key)j);//最新
             }
         }
-        
+
     }
 }

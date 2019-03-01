@@ -1,6 +1,8 @@
 参考URL
 Tスピン等色々乗ってる
 https://tetrisch.github.io/main/spins.html#T
+回転規則、クラッシックとワールドルール
+http://www10.plala.or.jp/code1484/game/tgmvs/tgm-w-kaiten.htm
 
 おじゃまブロックの生成規則について
 https://p8g.hatenablog.com/entry/2018/08/14/070957
@@ -8,3 +10,16 @@ https://p8g.hatenablog.com/entry/2018/08/14/070957
 REN,相殺,おじゃまブロックのたまり方など
 http://clocklaboratory.s1001.xrea.com/game/others/puyotetris.html
 https://www45.atwiki.jp/tetriskakera/pages/24.html
+
+見つけた不具合など
+・ハードドロップした後にミノを動かせる時間がある　
+・列が埋まってないのに消える(一番右が１マス空いてても消える）安定して再現可能
+・埋まってるのに消えない（複数ライン消したときに結構なる気がする）
+
+後々変更したい点
+・RENを文字表示、おじゃまゲージへの表示、Tスピン判断関数の強化
+・着地後固定しないような猶予時間がもう少しほしい
+・ミノ生成点をもう少し上に
+
+3/1
+OjamaBlock,GameBoardModifier,EraceManager等をいじって消したラインを送ったりRENをカウントできるようにした（表示はまだコンソール)
