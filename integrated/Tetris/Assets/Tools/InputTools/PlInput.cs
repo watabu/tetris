@@ -15,7 +15,7 @@ public class PlInput : MonoBehaviour
 {
     public const int MaxPlayerNum = 2;//最大プレイ人数
     public const int MaxKey = 5;//キーの数
-    public const double fixtime = 0.3;
+    public const double fixtime = 0.25;
     public enum ConKind
     {
         NOTHING,//初期状態

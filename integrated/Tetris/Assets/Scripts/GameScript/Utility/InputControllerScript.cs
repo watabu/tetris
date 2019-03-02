@@ -31,7 +31,7 @@ public class InputControllerScript : MonoBehaviour {
              direction.y=input.GetInput2(playerNum,PlInput.Key.KEY_VERTICAL);
              */
         direction.x = input.GetInputdelta(playerNum, PlInput.Key.KEY_HORIZON,0.0625);
-        direction.y = input.GetInputdelta2(playerNum, PlInput.Key.KEY_VERTICAL,0.125);
+        direction.y = input.GetInputdelta2(playerNum, PlInput.Key.KEY_VERTICAL,0.0625);
         direction.z=0;
         return direction;
     }
