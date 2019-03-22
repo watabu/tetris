@@ -76,6 +76,7 @@ public class GameBoardScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!activeFlag) return;
         if (IsFilled())
             OnMinoFilled.Invoke();
     }
@@ -89,7 +90,16 @@ public class GameBoardScript : MonoBehaviour
         //cellController.SetActive(true);
         activeFlag = true;
     }
-    
+    public void Restart()//ゲーム盤を最初からに
+    {
+        //cellController.SetActive(true);
+        activeFlag = true;
+        for(int y = 0; y < height; y++)
+            for(int x = 0; x < width; x++)
+                ReDefineCell(tilemap, null, edgeCellCood[0].x + x, edgeCellCood[0].y + y);
+    }
+
+
     //layerの座標cellにあるセルのレイヤーを変える
     public void SwitchCellLayer(BoardLayer baselayer, BoardLayer destlayer, Vector3Int cell)
     {
@@ -98,6 +108,7 @@ public class GameBoardScript : MonoBehaviour
     //layerの座標cellにあるセルのレイヤーを変え、offset分だけ座標を移動させる
     public Vector3Int SwitchCellLayerTo(BoardLayer baselayer, BoardLayer destlayer, Vector3Int cell, Vector3Int offset)
     {
+        if (!activeFlag) return GameBoardScript.nullCood;
         Tilemap basetile = GetLayer(baselayer), destTile = GetLayer(destlayer);
         Vector3Int cood = new Vector3Int(cell.x, cell.y, 0);
         TileBase prevCell = basetile.GetTile(cood);
@@ -118,6 +129,8 @@ public class GameBoardScript : MonoBehaviour
     public Vector3Int MoveCellTo(BoardLayer layer, Vector3Int cell, int offsetX, int offsetY)    { return MoveCellTo(layer, cell.x, cell.y, offsetX, offsetY); }
     public Vector3Int MoveCellTo(BoardLayer layer, int cellX, int cellY, int destinationX, int destinationY)
     {
+        if (!activeFlag) return GameBoardScript.nullCood;
+
         if (IsEmpty(layer, cellX, cellY) || !IsEmpty(layer, destinationX, destinationY))
             return new Vector3Int(cellX, cellY,0);
         Tilemap tile = GetLayer(layer);
@@ -130,22 +143,33 @@ public class GameBoardScript : MonoBehaviour
         return new Vector3Int(cellX, cellY,0);
     }
 
-     void ReDefineCell(Tilemap map, TileBase cell, int destinationX, int destinationY)
+    //mapにtileをセットする
+    //もしmapがnullだったりしたらfalseを返す
+    bool ReDefineCell(Tilemap map, TileBase cell, int destinationX, int destinationY)
     {
-        if (map != null)
-            map.SetTile(new Vector3Int(destinationX, destinationY, 0), cell);
+        if (!activeFlag) return false;
+        if (map == null)
+        {
+            Debug.LogWarning("map is null!");
+            return false;
+        }
+        map.SetTile(new Vector3Int(destinationX, destinationY, 0), cell);
+        return true;
     }
-
-    public void SetCell(BoardLayer layer, TileBase cell, int destinationX, int destinationY)
+    //layerのmapにtileをセットする
+    public bool SetCell(BoardLayer layer, TileBase cell, int destinationX, int destinationY)
     {
-        ReDefineCell(GetLayer(layer), cell, destinationX, destinationY);
+        if (!activeFlag) return false;
+        if (!IsEmpty(layer, destinationX, destinationY))return false;
+        return ReDefineCell(GetLayer(layer), cell, destinationX, destinationY);
     }
 
     //マスにミノがあるときtrue、ないときfalseを返す
     public bool IsEmpty(BoardLayer layer, Vector3Int cood) { return IsEmpty(layer, cood.x, cood.y); }
     public bool IsEmpty(BoardLayer layer, int cellX, int cellY) { return !GetLayer(layer).HasTile(new Vector3Int(cellX, cellY, 0)); }
 
-    public bool IsFilled() { return minoFilledFlag; }
+    public bool IsFilled(){ return minoFilledFlag; }
+    public void SetFilledFlag(bool filledFlag) { minoFilledFlag= filledFlag; }
 
     public bool IsWall(Vector3Int cood) { return IsEmpty(BoardLayer.Wall, cood.x, cood.y); }
 

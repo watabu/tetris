@@ -18,7 +18,7 @@ public class MinoControllerScript : MonoBehaviour
     [Header("Object References")]
     public InputControllerScript input;//入力クラスの参照
     public GameBoardScript gameBoard;//ボードの参照
-    public GameSceneController gameScene;//ボードの参照
+    public PlayerControllManager playerController;//ボードの参照
     public HoldContainer holdContainer;//ボードの参照
     public FallenMinoDrawer fallenMinoDrawer;//落ちる場所に半透明のミノを表示するクラスの参照
 
@@ -46,7 +46,8 @@ public class MinoControllerScript : MonoBehaviour
     Vector3Int originCood;//ミノを格納する2次元配列の左下の座標
     int stuckCount = 0;//他のミノに何フレームぶつかっているか
     GameObject mino ;
-    
+
+    private AudioSource moveSE;//動かしたとき鳴らすSE
 
     bool minoStuckFlag;//ミノが止まったか
 
@@ -64,8 +65,17 @@ public class MinoControllerScript : MonoBehaviour
     {
         minoStuckFlag = false;
         count = 0;
+        moveSE = GetComponent<AudioSource>();
+        if (moveSE == null)
+        {
+            Debug.LogWarning("Controller SE is Null!");
+        }
     }
 
+    public void Restart()
+    {
+        RemoveCells();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -82,14 +92,14 @@ public class MinoControllerScript : MonoBehaviour
             {
                 holdContainer.Register(mino);//
                 EraceControllCells();//今操作しているミノを消す
-                gameScene.MinoUpdate();//新しくミノを登録する
+                playerController.MinoUpdate();//新しくミノを登録する
             }
             else
             {
                 GameObject mino_ = holdContainer.GetMino();
                 holdContainer.Register(mino);
                 EraceControllCells();//今操作しているミノを消す
-                gameScene.MinoUpdate(mino_);
+                playerController.MinoUpdate(mino_);
             }
         }
         MoveMino();
@@ -100,6 +110,10 @@ public class MinoControllerScript : MonoBehaviour
     void MoveMino()
     {
         Vector3Int moveOffset = GetOffset();//今のフレームで動かすオフセット値を取得
+        if (moveOffset.sqrMagnitude == 0) return;//もし動かさないようであれば終了
+
+        if(count % fallSpeed !=0) moveSE.PlayOneShot(moveSE.clip);//自然落下でなければ動かす効果音をならす
+
         bool turnflag = moveOffset.z != 0;//z成分が0以外のとき回転させるようにする
         if (!turnflag)
         {

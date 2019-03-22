@@ -74,7 +74,6 @@ public class GameBoardModifier : MonoBehaviour
         }
         if (yList.Count == 0)
         {
-            OnMinoEraced.Invoke(0, minoController.GetMino());
             return;//もし埋まっている列がなかったら終了
         }
         OnMinoFilled.Invoke();

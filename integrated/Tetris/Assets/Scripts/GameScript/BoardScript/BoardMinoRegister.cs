@@ -45,6 +45,8 @@ public class BoardMinoRegister : MonoBehaviour
 
     }
 
+    //ミノのbool配列のデータとtileから
+    //GameBoardにミノを生成する
     Vector3Int[,] ConvertMinoData(bool[,] minoShapeData, Tile tile)
     {
         int minoLength = minoShapeData.GetLength(0);
@@ -57,6 +59,10 @@ public class BoardMinoRegister : MonoBehaviour
                     {
                         gameBoard.SetCell(BoardLayer.Default, tile, generateCood.x + x, generateCood.y + y);
                         cellscood[y, x] = new Vector3Int(generateCood.x + x, generateCood.y + y, 0);
+                    }
+                    else
+                    {
+                        gameBoard.SetFilledFlag(true);
                     }
                 }
                 else
