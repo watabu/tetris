@@ -58,10 +58,10 @@ public class EraceManager : MonoBehaviour
         else//普通に消したとき
         {
             Ojama.SendOjama(0, yCount);
-            Debug.Log("Ren is");
+            /*Debug.Log("Ren is");
             Debug.Log(Ojama.Ren(0));
             Debug.Log("Send Ojama is");
-            Debug.Log(yCount);
+            Debug.Log(yCount);*/
             OnRenChanged.Invoke(Ojama.Ren(0));
         }
 

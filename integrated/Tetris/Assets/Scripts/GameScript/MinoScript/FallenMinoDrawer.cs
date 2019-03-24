@@ -115,8 +115,7 @@ public class FallenMinoDrawer : MonoBehaviour
         }
         return -1;
     }
-
-    bool IsInArray(Vector3Int[] array,Vector3Int cood)
+    bool IsInArray(Vector3Int[] array, Vector3Int cood)
     {
         foreach (var i in array)
             if (cood == i) return true;
