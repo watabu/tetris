@@ -5021,6 +5021,36 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &67537742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 67537743}
+  m_Layer: 0
+  m_Name: OriginCood1P
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &67537743
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67537742}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.03, y: 1.59, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1677603362}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &103771732
 GameObject:
   m_ObjectHideFlags: 0
@@ -8321,7 +8351,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &695790440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8443,11 +8473,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1677603361}
         m_MethodName: EndGame
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -18944,7 +18974,7 @@ GameObject:
   - component: {fileID: 1323562736}
   - component: {fileID: 1323562735}
   m_Layer: 0
-  m_Name: OjamaStuckDrawer
+  m_Name: OjamaStuck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26386,6 +26416,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1677603362}
   - component: {fileID: 1677603361}
+  - component: {fileID: 1677603363}
   m_Layer: 0
   m_Name: GameSceneController
   m_TagString: Untagged
@@ -26407,6 +26438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControll1P: {fileID: 1626867387}
   playerControll2P: {fileID: 2076179157}
+  result: {fileID: 1677603363}
   readyCanvasPrefab: {fileID: 1345628908446024, guid: 77c5acf4085665c499f62432c3da6d31,
     type: 3}
   endDialogPrefab: {fileID: 1299613661236889606, guid: afbb75af272d1b34f98733bc3a44e5a8,
@@ -26422,10 +26454,30 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 67537743}
+  - {fileID: 1928781302}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1677603363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677603360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cb3c665e1e1e614d9c80f3264b1880a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  winLogoPrefab: {fileID: 3743336905031515749, guid: 0b79b4cc681016d4f86bb169b8abee02,
+    type: 3}
+  loseLogoPrefab: {fileID: 4936790907555250573, guid: 3a80fff9cee0f524b96324b4431b08ca,
+    type: 3}
+  originCood1P: {fileID: 67537743}
+  originCood2P: {fileID: 1928781302}
 --- !u!1 &1697127582 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1799716867784830, guid: 7917dd11f44fe4f44ad6b31b5ed97806,
@@ -26896,6 +26948,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1928781301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1928781302}
+  m_Layer: 0
+  m_Name: OriginCood2P
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1928781302
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928781301}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.5, y: 1.42, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1677603362}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1938957391
 GameObject:
   m_ObjectHideFlags: 0
@@ -26913,7 +26995,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1938957392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27137,7 +27219,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1677603361}
         m_MethodName: EndGame
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -27386,7 +27468,7 @@ GameObject:
   - component: {fileID: 1981315615}
   - component: {fileID: 1981315614}
   m_Layer: 0
-  m_Name: OjamaStuckDrawer
+  m_Name: OjamaStuck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27809,7 +27891,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2076179157
 MonoBehaviour:
   m_ObjectHideFlags: 0

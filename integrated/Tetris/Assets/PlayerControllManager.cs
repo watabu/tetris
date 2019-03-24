@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //プレイヤーの入力やボードなどの全体を１プレイヤー分管理するクラス
+//PlayerControllManager manager1P;
+//PlayerControllManager manager2P;
+//のように管理
 public class PlayerControllManager : MonoBehaviour
 {
     //各クラスの参照
@@ -23,7 +26,7 @@ public class PlayerControllManager : MonoBehaviour
     {
 
     }
-
+    //ゲーム関連のオブジェクトを開始する
     public void StartGame()
     {
         nextMino.FillMinoList();
@@ -33,6 +36,7 @@ public class PlayerControllManager : MonoBehaviour
         MinoUpdate();
     }
 
+    //ゲーム関連のオブジェクトを終了させる
     public void EndGame()
     {
         gameBoard.Stop();
