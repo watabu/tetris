@@ -186,9 +186,16 @@ public class MinoControllerScript : MonoBehaviour
         int buttonCancel = input.GetInputDown(playerID, PlInput.Key.KEY_CANCEL)*-1;
         if (ans.y > 0)
         {
-            ans.y = canMoveUp ? 1 : -fallenMinoDrawer.GetMinoStuckBelowCount();//canMoveUpがfalseのとき、上にはいけないようにする
+            if (canMoveUp)
+            {
+                ans.y = 1;
+            }
+            else//canMoveUpがfalseのとき、上にはいけないようにする
+            {
+                ans.y = -fallenMinoDrawer.GetMinoStuckBelowCount();
+                minoStuckFlag = true;
+            }
         }
-
         ans.z = buttonSubmit + buttonCancel;
         return ans;
     }
