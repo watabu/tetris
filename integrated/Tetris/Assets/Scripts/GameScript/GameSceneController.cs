@@ -16,6 +16,8 @@ public class GameSceneController : MonoBehaviour {
     public PlayerControllManager playerControll1P;
     [Header("2P Object References")]
     public PlayerControllManager playerControll2P;
+    [Space(1.0f)]
+    public WinLoseDrawer result;
 
     //UIの参照
     [Header("UI Prefab")]
@@ -74,9 +76,19 @@ public class GameSceneController : MonoBehaviour {
     }
 
     //ゲームを終了させる関数
-    public void EndGame()
+    //minoFilledBoardID : -1 引き分け 0 1Pのボードが埋まった 1 2Pのボードが埋まった
+    public void EndGame(int minoFilledBoardID)
     {
         state = GameState.End;
+        switch (minoFilledBoardID)
+        {
+            case 0:
+                result.ShowResult(ResultState.Win2P);
+                break;
+            case 1:
+                result.ShowResult(ResultState.Win1P);
+                break;
+        }
         //ゲーム終了時のUIをPrefabから生成
         GenerateEndGUI();
         playerControll1P.EndGame();

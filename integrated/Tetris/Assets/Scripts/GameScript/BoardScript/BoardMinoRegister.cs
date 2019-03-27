@@ -4,6 +4,8 @@ using UnityEngine.Tilemaps;
 
 //ボードにミノを登録するクラス
 //GameObject Mino　からタイルマップに変換し、ボードに生成する
+//
+//3/25 generateCell
 public class BoardMinoRegister : MonoBehaviour
 {
     [Header("Object reference")]
@@ -55,10 +57,10 @@ public class BoardMinoRegister : MonoBehaviour
             for (int x = 0; x < minoLength; x++)
                 if (minoShapeData[y, x])//ミノから生成したセルが(x,y)のマスで存在するとき
                 {
-                    if (gameBoard.IsEmpty(BoardLayer.Default, generateCood.x + x, generateCood.y + y))//生成するマスでミノが存在しないとき
+                    if (gameBoard.IsEmpty(BoardLayer.Default, generateCood.x + x, generateCood.y + y + (1 - minoLength)))//生成するマスでミノが存在しないとき
                     {
-                        gameBoard.SetCell(BoardLayer.Default, tile, generateCood.x + x, generateCood.y + y);
-                        cellscood[y, x] = new Vector3Int(generateCood.x + x, generateCood.y + y, 0);
+                        gameBoard.SetCell(BoardLayer.Default, tile, generateCood.x + x, generateCood.y + y+(1- minoLength));
+                        cellscood[y, x] = new Vector3Int(generateCood.x + x, generateCood.y + y + (1 - minoLength), 0);
                     }
                     else
                     {

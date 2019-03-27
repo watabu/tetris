@@ -13,13 +13,15 @@ using UnityEditor;
 //      GameBoardScript.GetNextMino()の前に実行するようにしてください
 //       上ボタンを押したとき、下まで一気に移動するように
 //       ミノが回転したときどの方向にうごかしても空白がないとき動かせないようにする予定
+//3/24   ハードドロップ時ミノが止まるよう修正
+//       ミノが止まるまでの猶予時間を実装
 public class MinoControllerScript : MonoBehaviour
 {
     [Header("Object References")]
     public InputControllerScript input;//入力クラスの参照
-    public GameBoardScript gameBoard;//ボードの参照
-    public PlayerControllManager playerController;//ボードの参照
-    public HoldContainer holdContainer;//ボードの参照
+    public GameBoardScript gameBoard;
+    public PlayerControllManager playerController;
+    public HoldContainer holdContainer;
     public FallenMinoDrawer fallenMinoDrawer;//落ちる場所に半透明のミノを表示するクラスの参照
 
     [Header("Control Status")]
@@ -27,6 +29,7 @@ public class MinoControllerScript : MonoBehaviour
     public int playerID;//どのプレイヤーのミノを操作しているか
     [Range(5, 120)]
     public int fallSpeed;//ミノが落ちる速さ (何フレーム(60フレーム→１秒)に１回１マス落ちるか)
+    public int minoFixFlame;//落下時ミノが固定されるまでの猶予フレーム
     public bool minoRevisedFlag;//ミノが回転したあとはまる場所に補正させられたか
 
     [Header("Call Back Function"), SerializeField]
@@ -44,6 +47,7 @@ public class MinoControllerScript : MonoBehaviour
     int count = 0;
     [SerializeField]
     Vector3Int originCood;//ミノを格納する2次元配列の左下の座標
+    [SerializeField]
     int stuckCount = 0;//他のミノに何フレームぶつかっているか
     GameObject mino ;
 
@@ -101,18 +105,29 @@ public class MinoControllerScript : MonoBehaviour
                 EraceControllCells();//今操作しているミノを消す
                 playerController.MinoUpdate(mino_);
             }
+            return;
         }
         MoveMino();
         count++;
         //Debug.Break();
     }
 
+
     void MoveMino()
     {
         Vector3Int moveOffset = GetOffset();//今のフレームで動かすオフセット値を取得
-        if (moveOffset.sqrMagnitude == 0) return;//もし動かさないようであれば終了
+        if (moveOffset.sqrMagnitude == 0)//動かさないとき
+        {
+            if (IsOnGround())
+            {
+                stuckCount++;//もし地面についているならカウントを開始
+                if (stuckCount >= minoFixFlame) minoStuckFlag = true;//もし地面についたフレームがリミットを上回ればミノの操作をやめる
+            }
+            return;
+        }
+        stuckCount = 0;//ミノを動かしたので、地面についてるかのカウントをリセット
 
-        if(count % fallSpeed !=0) moveSE.PlayOneShot(moveSE.clip);//自然落下でなければ動かす効果音をならす
+        if (count % fallSpeed !=0) moveSE.PlayOneShot(moveSE.clip);//自然落下でなければ動かす効果音をならす
 
         bool turnflag = moveOffset.z != 0;//z成分が0以外のとき回転させるようにする
         if (!turnflag)
@@ -134,7 +149,7 @@ public class MinoControllerScript : MonoBehaviour
             if (!turnflag)
             {
                 SwitchCellTo(BoardLayer.Controll, BoardLayer.Default, moveOffset * -1);//コントロールレイヤーに置いたセルを元に戻す
-                if (moveOffset.x == 0) minoStuckFlag = true;//床に置いて下ボタンを押したときミノが止まったことにしてる
+                //if (moveOffset.x == 0) minoStuckFlag = true;//床に置いて下ボタンを押したときミノが止まったことにしてる
             }
             else
             {
@@ -144,7 +159,8 @@ public class MinoControllerScript : MonoBehaviour
     }
 
     //複数のセルを動かせるように登録する
-    //originCood_ は動かすミノの左下の座標
+    //mino_ ミノのクラス(Tスピンの判定に使う予定)
+    //originCood_ 動かすミノの左下の座標
     public void RegisterCells(GameObject mino_, Vector3Int[,] cells_, Vector3Int originCood_)
     {
         Debug.Log("mino registered");
@@ -176,7 +192,7 @@ public class MinoControllerScript : MonoBehaviour
     //時計回り 1 反時計回り -1
     Vector3Int GetOffset()
     {
-        if (count % fallSpeed ==0)//一定間隔でミノを下に落とす
+        if (count % fallSpeed ==0&&!IsOnGround())//一定間隔でミノを下に落とす
         {
             return Vector3Int.down;
         }
@@ -186,14 +202,22 @@ public class MinoControllerScript : MonoBehaviour
         int buttonCancel = input.GetInputDown(playerID, PlInput.Key.KEY_CANCEL)*-1;
         if (ans.y > 0)
         {
-            ans.y = canMoveUp ? 1 : -fallenMinoDrawer.GetMinoStuckBelowCount();//canMoveUpがfalseのとき、上にはいけないようにする
+            if (canMoveUp)
+            {
+                ans.y = 1;
+            }
+            else//canMoveUpがfalseのとき、上にはいけないようにする
+            {
+                ans.y = -fallenMinoDrawer.GetMinoStuckBelowCount();
+                minoStuckFlag = true;//ハードドロップ時ミノ即時固定
+            }
         }
-
         ans.z = buttonSubmit + buttonCancel;
         return ans;
     }
     
     bool IsStuck() { return minoStuckFlag; } //ミノが動かせなくなったかどうか(内部処理用)
+    bool IsOnGround() { return fallenMinoDrawer.GetMinoStuckBelowCount() == 0; }//ミノが地面やほかのミノに乗っかっているとき
 
     //baseLayerにあるミノをdestLayerにmoveOffset分移動させる
     void SwitchCellTo(BoardLayer baselayer, BoardLayer destlayer) { SwitchCellTo(baselayer, destlayer, Vector3Int.zero); }

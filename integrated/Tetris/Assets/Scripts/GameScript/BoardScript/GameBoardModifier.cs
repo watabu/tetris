@@ -27,17 +27,16 @@ public class GameBoardModifier : MonoBehaviour
     UnityEvent OnMinoFilled;//ミノが１列埋まった瞬間実行する関数を格納する変数
     [SerializeField]
     ModifierCallBack OnMinoEraced;//ミノを消したあと実行する関数を格納する変数
-  
+
     //public MinoControllerScript minoController;
     GameBoardScript gameBoardScript;
 
     Vector3Int leftBottomCood;//ボードの左下の座標
     int height;//ボードの高さ
     int width;//ボードの幅
-    AudioSource audioSources;
+
     private void Awake()
     {
-        audioSources = GetComponent<AudioSource>();
         if (OnMinoEraced == null) OnMinoEraced = new ModifierCallBack(); //イベント・インスタンスの作成
     }
 
@@ -67,32 +66,28 @@ public class GameBoardModifier : MonoBehaviour
         for (int y = 0; y < height; y++)
         {
             int xCount = 0;
-            for (int x = 0; x < width+1; x++)//右端はx=width だったのでそれを含めた
+            for (int x = 0; x < width; x++)
                 if (!gameBoardScript.IsEmpty(BoardLayer.Default, leftBottomCood.x + x, leftBottomCood.y + y))//もし空白がなかったら
                     xCount++;
-            if (xCount == width+1)//１行すべて埋まってたらリストに追加
+            if (xCount == width)//１行すべて埋まってたらリストに追加
                 yList.Add(y);
         }
         if (yList.Count == 0)
         {
-            OnMinoEraced.Invoke(yList.Count, minoController.GetMino());//Renが途切れることを知らせる
             return;//もし埋まっている列がなかったら終了
-           
         }
         OnMinoFilled.Invoke();
-        int n = -1;
+
         foreach (var yLaw in yList)
         {
-            n++;//下げられた消された列のyと下げられてないyLawを合わせるための補正
             //minoController.RemoveCells();
-            for (int x = 0; x < width+1; x++)
-                ClearCell(leftBottomCood.x + x, leftBottomCood.y + yLaw-n);//yLaw列のセルを全消去
-            for (int y2 = yLaw-n; y2 < height; y2++)
-                for (int x2 = 0; x2 < width+1; x2++)
+            for (int x = 0; x < width; x++)
+                ClearCell(leftBottomCood.x + x, leftBottomCood.y + yLaw);//yLaw列のセルを全消去
+            for (int y2 = yLaw; y2 < height; y2++)
+                for (int x2 = 0; x2 < width; x2++)
                     gameBoardScript.MoveCell(BoardLayer.Default, leftBottomCood.x + x2, leftBottomCood.y + y2, 0, -1);//上のセルを下に移動
         }
         OnMinoEraced.Invoke(yList.Count,minoController.GetMino());
-        audioSources.PlayOneShot(audioSources.clip);
         //return true;
     }
 
