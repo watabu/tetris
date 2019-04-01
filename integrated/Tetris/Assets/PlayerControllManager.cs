@@ -14,6 +14,7 @@ public class PlayerControllManager : MonoBehaviour
     public NextMinoContainer nextMino;
     public GameObject minoController;
     public BoardMinoRegister minoRegister;
+    public GameBoardModifier boardModifier;
 
     // Start is called before the first frame update
     void Start()
@@ -50,5 +51,9 @@ public class PlayerControllManager : MonoBehaviour
     public void MinoUpdate(GameObject mino_)
     {
         minoRegister.RegisterMino(mino_);
+    }
+    public void SetOjama(int height,int holeX)
+    {
+        boardModifier.GenerateOjama(height, holeX);
     }
 }

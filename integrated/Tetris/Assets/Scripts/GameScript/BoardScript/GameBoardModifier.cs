@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;//List用
 using UnityEngine.Events;
+using UnityEngine.Tilemaps;
 
 //あらかじめ決められた長方形の範囲のゲームボードの
 //セルの列消去、ペナルティの生成を行う
@@ -14,17 +15,20 @@ using UnityEngine.Events;
 //     ミノを動かしている間に勝手に消されなくなった
 //2/23  OnMinoFilledを追加 ミノが埋まった瞬間に実行するイベント
 //     これでミノが消える前にエフェクトを生成する処理を管理できるように
+//3/30  ModifierCallBackの第２引数をGameObjectからMinoControllerScriptに変更
+//     どのミノで消したかの情報を渡すのではなく、消したときのコントローラーの状態を渡すように
 public class GameBoardModifier : MonoBehaviour
 {
     //たぶんこのクラス内でのみ使うコールバック用クラス
     [System.Serializable]
-    public class ModifierCallBack : UnityEngine.Events.UnityEvent<int,GameObject>{}
+    public class ModifierCallBack : UnityEngine.Events.UnityEvent<int, MinoControllerScript> {}
 
     [Header("Object refelence")]
+    public Tile Ojama;//
     public MinoControllerScript minoController;
 
     [Header("Call Back Function"), SerializeField]
-    UnityEvent OnMinoFilled;//ミノが１列埋まった瞬間実行する関数を格納する変数
+    ModifierCallBack OnMinoFilled;//ミノが１列埋まった瞬間実行する関数を格納する変数
     [SerializeField]
     ModifierCallBack OnMinoEraced;//ミノを消したあと実行する関数を格納する変数
 
@@ -32,6 +36,7 @@ public class GameBoardModifier : MonoBehaviour
     GameBoardScript gameBoardScript;
 
     Vector3Int leftBottomCood;//ボードの左下の座標
+    Vector3Int rightTopCood;//ボードの右上の座標
     int height;//ボードの高さ
     int width;//ボードの幅
 
@@ -44,7 +49,7 @@ public class GameBoardModifier : MonoBehaviour
     void Start()
     {
         gameBoardScript = GetComponent<GameBoardScript>();
-        SetBoardRange(gameBoardScript.edgeCellCood[0],gameBoardScript.height, gameBoardScript.width);
+        SetBoardRange(gameBoardScript.edgeCellCood[0], gameBoardScript.edgeCellCood[1], gameBoardScript.height, gameBoardScript.width);
     }
 
     // Update is called once per frame
@@ -52,9 +57,10 @@ public class GameBoardModifier : MonoBehaviour
     {
     }
     
-    void SetBoardRange(Vector3Int leftBottomCood_, int height_, int width_)//ボードの範囲を指定する
+    void SetBoardRange(Vector3Int leftBottomCood_, Vector3Int rightTopCood_, int height_, int width_)//ボードの範囲を指定する
     {
         leftBottomCood = leftBottomCood_;
+        rightTopCood = rightTopCood_;
         height = height_;
         width = width_;
     }
@@ -76,7 +82,7 @@ public class GameBoardModifier : MonoBehaviour
         {
             return;//もし埋まっている列がなかったら終了
         }
-        OnMinoFilled.Invoke();
+        OnMinoFilled.Invoke(yList.Count, minoController);
 
         foreach (var yLaw in yList)
         {
@@ -87,18 +93,32 @@ public class GameBoardModifier : MonoBehaviour
                 for (int x2 = 0; x2 < width; x2++)
                     gameBoardScript.MoveCell(BoardLayer.Default, leftBottomCood.x + x2, leftBottomCood.y + y2, 0, -1);//上のセルを下に移動
         }
-        OnMinoEraced.Invoke(yList.Count,minoController.GetMino());
+        OnMinoEraced.Invoke(yList.Count,minoController);
         //return true;
     }
 
-    public void GenerateOjama(int playerNum)
+    //オジャマミノを自分のボードに生成する
+    //ojamaSize どれだけの高さか
+    //holeX どの位置に穴を設けるか
+    public void GenerateOjama(int ojamaSize,int holeX)
     {
+        if(ojamaSize>height) 
+        {
+            Debug.LogError("Ojama size is bigger than board size");
+            return;
+        }
+        for (int y = rightTopCood.y; y >= leftBottomCood.y; y--)
+            for (int x = 0; x < width; x++)
+                gameBoardScript.MoveCell(BoardLayer.Default, leftBottomCood.x + x, y, 0, ojamaSize);//上のセルを下に移動
 
+        for (int y = 0; y < ojamaSize; y++)
+            for (int x = 0; x < width; x++)
+                gameBoardScript.SetCell(BoardLayer.Default, Ojama, leftBottomCood.x + x, leftBottomCood.y + y);
 
     }
-    
 
-    
+
+
     public void ClearCell()//ゲーム盤のミノを全消去する
     {
     }
