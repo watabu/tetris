@@ -43,8 +43,7 @@ public class BoardMinoRegister : MonoBehaviour
 
         Vector3Int[,] cellscood = ConvertMinoData(cells, tile);
 
-        minoController.RegisterCells(mino, cellscood, generateCood);//どの座標のセルを移動させるかの情報を渡す
-
+        minoController.RegisterCells(mino, cellscood, generateCood + new Vector3Int(0, -(cells.GetLength(0) - 1), 0));//どの座標のセルを移動させるかの情報を渡す
     }
 
     //ミノのbool配列のデータとtileから

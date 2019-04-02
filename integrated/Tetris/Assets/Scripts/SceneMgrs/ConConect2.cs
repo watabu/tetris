@@ -16,7 +16,7 @@ public class ConConect2 : MonoBehaviour
     AudioSource SE_Submit;
     AudioSource SE_Cancel;
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         In = GetComponent<PlInput>();
         back = GameObject.Find("/Canvas/Button back").GetComponent<Button>();
@@ -28,14 +28,28 @@ public class ConConect2 : MonoBehaviour
         SE_Submit = audioSources[1];
         SE_Cancel = audioSources[0];
     }
+    private void Start()
+    {//コントローラー初期化等
+        Debug.Log("ConConect2 Start");
+        reconect1.Select();
+        var ConImg1 = GameObject.Find("/Canvas/Panel1/ConImg1").GetComponent<Image>();
+        In.ChangePlConkind(0, PlInput.ConKind.NOTHING);
+        PlInput.Player[0].JoyConNum = -1;
+        ConImg1.sprite = Nothing;
+        var ConImg2 = GameObject.Find("/Canvas/Panel2/ConImg2").GetComponent<Image>();
+        In.ChangePlConkind(1, PlInput.ConKind.NOTHING);
+        PlInput.Player[1].JoyConNum = -1;
+        ConImg2.sprite = Nothing;
+        In.ChangePlConkind(0, PlInput.ConKind.NOTHING);
+        In.ChangePlConkind(1, PlInput.ConKind.NOTHING);
+    }
     //意図的に同じコントローラーを登録できるようにしてる（面白そうだから）
     public void Reconect1()
     {
      
-        Debug.Log(PlInput.Player[0].ConKind);
-        Debug.Log(PlInput.ConKind.JOYCON);
+ 
         var ConImg = GameObject.Find("/Canvas/Panel1/ConImg1").GetComponent<Image>();
-        if (PlInput.Player[0].ConKind == PlInput.ConKind.NOTHING)
+        if (PlInput.GetConKind(0) == PlInput.ConKind.NOTHING)
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
@@ -60,20 +74,20 @@ public class ConConect2 : MonoBehaviour
                 }
             }
         }
-        else if (PlInput.Player[0].ConKind != PlInput.ConKind.NOTHING)
+        else if (PlInput.GetConKind(0) != PlInput.ConKind.NOTHING)
         {
             In.ChangePlConkind(0, PlInput.ConKind.NOTHING);
             PlInput.Player[0].JoyConNum = -1;
             SE_Cancel.PlayOneShot(SE_Cancel.clip);
             ConImg.sprite = Nothing;
         }
-      //   Debug.Log("Player[0].ConKind is " + PlInput.Player[0].ConKind);
+        Debug.Log("Player[0].ConKind is " + PlInput.GetConKind(0));
     }
 
     public void Reconect2()
     {
         var ConImg = GameObject.Find("/Canvas/Panel2/ConImg2").GetComponent<Image>();
-        if (PlInput.Player[1].ConKind == PlInput.ConKind.NOTHING)
+        if (PlInput.GetConKind(1) == PlInput.ConKind.NOTHING)
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
@@ -99,18 +113,23 @@ public class ConConect2 : MonoBehaviour
                 }
             }
         }
-        else if (PlInput.Player[1].ConKind != PlInput.ConKind.NOTHING)
+        else if (PlInput.GetConKind(1) != PlInput.ConKind.NOTHING)
         {
             In.ChangePlConkind(1, PlInput.ConKind.NOTHING);
             PlInput.Player[1].JoyConNum = -1;
             SE_Cancel.PlayOneShot(SE_Cancel.clip);
             ConImg.sprite = Nothing;
         }
-        // Debug.Log("Player[1].ConKind is " + PlInput.Player[1].ConKind);
+        Debug.Log("Player[1].ConKind is " + PlInput.GetConKind(1));
     }
     // Update is called once per frame
     void Update()
     {
 
+    }
+    public void ShowConKind()
+    {
+        Debug.Log("Player[0].ConKind is " + PlInput.GetConKind(0));
+        Debug.Log("Player[1].ConKind is " + PlInput.GetConKind(1));
     }
 }

@@ -46,9 +46,16 @@ public class PlInput : MonoBehaviour
 
 
     static public Playerinfo[] Player;
+    static public ConKind conkind1 = ConKind.NOTHING;
+    static public ConKind conkind2 = ConKind.NOTHING;
     static int[][][] Keystatus;
     static double[][] KeyPushcount; //キーが押され続けている時間をカウント
 
+   static  public ConKind GetConKind(int playerNum)
+    {
+        if(playerNum==0) return conkind1;
+        return conkind2;
+    }
     public int GetInputdelta2(int playerNum, Key key, double deltatime)//deltatime秒に一回押されている状態（１，－１）を返す
     {//旧GetInputdelta()
         /*横に移動するときに一秒ボタンが押しっぱなしのときに２個ぶん移動するようにしたい、ってときに
@@ -68,9 +75,14 @@ public class PlInput : MonoBehaviour
         else//押され続けている
         {
             KeyPushcount[playerNum][(int)key] += 1 * Time.deltaTime;
+
             if (KeyPushcount[playerNum][(int)key] > deltatime)
             {
-                KeyPushcount[playerNum][(int)key] = 0;//初期化
+                if (key == Key.KEY_VERTICAL && GetInput(playerNum,key)>0 && KeyPushcount[playerNum][(int)key] < deltatime*3)
+                {//上入力だけdeltaTimeを大きく
+                    return 0;   
+                }
+                    KeyPushcount[playerNum][(int)key] = 0;//初期化
                 return GetInput(playerNum, key);//押されているやつ　１かー１
             }
             return 0;
@@ -146,23 +158,28 @@ public class PlInput : MonoBehaviour
 
     public int ChangePlConkind(int playerNum, ConKind ConKind)//ConKindを変更する　変更できれば0、失敗すれば-1
     {
+        Debug.Log("changeConKind");
         if (ConKind != ConKind.NOTHING)
         {
-            if (Player[playerNum].ConKind == 0)//既に登録されてなければ
-            {
+           // if (Player[playerNum].ConKind == ConKind.NOTHING)//既に登録されてなければ
+          //  {
                 Player[playerNum].ConKind = ConKind;
+                Debug.Log(GetConKind(playerNum));
+                conkind1 = Player[0].ConKind;
+                conkind2 = Player[1].ConKind;
                 return 0;
-            }
+           // }
         }
         else //NOTHINGを代入するとき
         {
-            Player[playerNum].ConKind = ConKind.NOTHING;//選びなおすときとか
+            Player[playerNum].ConKind= ConKind.NOTHING;//選びなおすときとか
+            conkind1 = Player[0].ConKind;
+            conkind2 = Player[1].ConKind;
             return 0;
         }
 
-        return -1;
+       // return -1;
     }
-
     public int GetInput2(int playerNum, Key key)//GetInput1した時点での入力状態を返す
     {
 
@@ -258,7 +275,7 @@ public class PlInput : MonoBehaviour
     }
 
     public void Awake()//Startから内容をうつした
-    {
+    {     
         Keystatus = new int[MaxPlayerNum][][];
         KeyPushcount = new double[MaxPlayerNum][];
         for (int i = 0; i < MaxPlayerNum; i++)
@@ -275,11 +292,19 @@ public class PlInput : MonoBehaviour
         Player = new Playerinfo[MaxPlayerNum];
         Player[0] = new Playerinfo();
         Player[1] = new Playerinfo();
+        //conkind1 = ConKind.KEYBOARD1;
+       // conkind2 = ConKind.KEYBOARD2;
+        ShowConKind();
 
     }
     // Use this for initialization
     void Start()
     {
+        ShowConKind();
+        Player[0].ConKind = conkind1;
+        Player[1].ConKind = conkind2;
+        Debug.Log("PlInput start");
+        ShowConKind();
     }
 
     // Update is called once per frame
@@ -296,5 +321,10 @@ public class PlInput : MonoBehaviour
             }
         }
 
+    }
+    public void ShowConKind()
+    {
+        Debug.Log("Player[0].ConKind is " + PlInput.GetConKind(0));
+        Debug.Log("Player[1].ConKind is " + PlInput.GetConKind(1));
     }
 }

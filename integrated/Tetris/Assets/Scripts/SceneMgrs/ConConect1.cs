@@ -14,7 +14,7 @@ public class ConConect1 : MonoBehaviour
     private AudioSource SE_Submit;
     private AudioSource SE_Cancel;
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         In = GetComponent<PlInput>();
         back = GameObject.Find("/Canvas/Button back").GetComponent<Button>();

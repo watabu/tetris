@@ -55,6 +55,8 @@ public class MinoControllerScript : MonoBehaviour
 
     bool minoStuckFlag;//ミノが止まったか
 
+    public Vector3Int GetOriginCood() { return originCood; }
+
     //Start()の前に実行する関数
     //他のクラスでも参照するオブジェクトはこの関数の中で生成させるべき
     private void Awake()
@@ -127,7 +129,7 @@ public class MinoControllerScript : MonoBehaviour
         }
         stuckCount = 0;//ミノを動かしたので、地面についてるかのカウントをリセット
 
-        if (count % fallSpeed !=0) moveSE.PlayOneShot(moveSE.clip);//自然落下でなければ動かす効果音をならす
+        if (count % fallSpeed != 0) moveSE.PlayOneShot(moveSE.clip);//自然落下でなければ動かす効果音をならす
 
         bool turnflag = moveOffset.z != 0;//z成分が0以外のとき回転させるようにする
         if (!turnflag)
@@ -153,7 +155,14 @@ public class MinoControllerScript : MonoBehaviour
             }
             else
             {
-                SwitchCellTo(BoardLayer.Controll, BoardLayer.Default, GetInsideOffset(moveOffset));//コントロールレイヤーに置いたセルを元に戻す
+                Vector3Int insideOffset = GetInsideOffset(moveOffset);
+                if (insideOffset.z != 0)//もし回転してもうまくおけなかった場合
+                {
+                    //逆回転して元に戻す(未実装)
+                    return;
+                }
+                SwitchCellTo(BoardLayer.Controll, BoardLayer.Default, insideOffset);//コントロールレイヤーに置いたセルを元に戻す
+                originCood += insideOffset;
             }
         }
     }
@@ -172,6 +181,7 @@ public class MinoControllerScript : MonoBehaviour
                 cells[i, j] = (i < height && j < width) ? cells_[i, j] : GameBoardScript.nullCood;
 
         minoStuckFlag = false;
+        minoRevisedFlag = false;
         originCood = originCood_;
         count = 0;
         mino = UsefulFunctions.CloneObject(mino_);
@@ -302,7 +312,8 @@ public class MinoControllerScript : MonoBehaviour
                 int count = 0;
                 foreach (var cell in cells)
                 {
-                    if (!IsNull(cell) &&
+                    if (!IsNull(cell) )continue;
+                    if (gameBoard.IsEmpty(BoardLayer.Default, cell + new Vector3Int(x, y, 0)) &&
                         gameBoard.IsEmpty(BoardLayer.Default, cell + new Vector3Int(x, y, 0))) count++;
                 }
                 if (count == 4)

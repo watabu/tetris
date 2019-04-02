@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 //色々なシーンで使うボタンの機能
 public class ButtonFunction : MonoBehaviour
 {
      AudioSource SE_Submit;
      AudioSource SE_Cancel;
-
+    public Button button;
     private void Awake()
     {
         AudioSource[] audioSources = GetComponents<AudioSource>();
@@ -15,7 +16,11 @@ public class ButtonFunction : MonoBehaviour
         SE_Submit = audioSources[1];
        SE_Cancel = audioSources[0];
     }
-
+    
+    public void SetSelected()//ボタン用
+    {
+        button.Select();
+    }
     public void MoveToConConect1()//一人用画面へ
     {
         SceneManager.LoadScene("ConConect1");
@@ -36,6 +41,11 @@ public class ButtonFunction : MonoBehaviour
         SceneManager.LoadScene("Setting");
         SE_Submit.PlayOneShot(SE_Submit.clip);
        
+    }
+    public void MoveTo2PGame()
+    {
+        SceneManager.LoadScene("Game"); 
+        SE_Submit.PlayOneShot(SE_Submit.clip);
     }
     public void _SE_Submit()
     {

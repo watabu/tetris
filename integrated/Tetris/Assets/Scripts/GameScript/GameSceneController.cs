@@ -51,8 +51,10 @@ public class GameSceneController : MonoBehaviour {
         GameObject readyCanvas = UsefulFunctions.CloneObject(readyCanvasPrefab);
 
         //UIの中のボタンが押されたときゲームを開始させるように関数を登録
+        //どうやらゲーム中にSubmittをするとこのボタンを押してしまうらしい
         GameObject button = readyCanvas.transform.Find("Button").gameObject;
         button.GetComponent<Button>().onClick.AddListener(StartGame);
+        //button.SetActive(false);
     }
     void GenerateEndGUI()
     {
@@ -65,6 +67,7 @@ public class GameSceneController : MonoBehaviour {
         button.GetComponent<Button>().onClick.AddListener(() => { Destroy(endCanvas); });*/
         GameObject end = endCanvas.transform.Find("End").gameObject;
         end.GetComponent<Button>().onClick.AddListener(() => { SceneManager.LoadScene("Title"); });
+        
     }
 
     //ゲームを開始させる関数

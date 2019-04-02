@@ -6,11 +6,15 @@ using UnityEngine;
 //おじゃまブロックの送受信とかRENの処理
 public class OjamaBlock : MonoBehaviour
 {
-
-    public const int MaxPlayerNum = 2;// PlInput.MaxPlayerNum;
+    [Range(0, 3)]
+    public int playerID;//playerNum 
+    [Range(1,2)]
+    public int MaxPlayerNum = 2;// PlInput.MaxPlayerNum;
     public const int MaxRen = 30;
-    int[][] OjamaStock;//送られたおじゃまブロックの列の数
-    int[] RenNum;//プレイヤーが何RENか
+    //共有
+    static int[][] OjamaStock;//送られたおじゃまブロックの列の数
+    static int[] RenNum;//プレイヤーが何RENか
+    //プレイヤーごと
     bool backtoback;//未実装 
     bool Tspin;//未実装
 

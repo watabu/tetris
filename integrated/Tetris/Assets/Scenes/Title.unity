@@ -514,6 +514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06171e2b9293c104790bb7b90d48a993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button: {fileID: 0}
 --- !u!1001 &1082890825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -526,6 +527,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ButtonMgr
       objectReference: {fileID: 0}
+    - target: {fileID: 6079855941893079976, guid: 4044029b00752504b8ab42e000918ff7,
+        type: 3}
+      propertyPath: SE_Submit
+      value: 
+      objectReference: {fileID: 1869703149}
     - target: {fileID: 6079855941893079979, guid: 4044029b00752504b8ab42e000918ff7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -581,11 +587,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6079855941893079976, guid: 4044029b00752504b8ab42e000918ff7,
-        type: 3}
-      propertyPath: SE_Submit
-      value: 
-      objectReference: {fileID: 1869703149}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4044029b00752504b8ab42e000918ff7, type: 3}
 --- !u!1 &1587449175
@@ -817,7 +818,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 02e8d1af7492cae41942ff0b6f12ecf1, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.38
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
