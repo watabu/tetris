@@ -164,7 +164,7 @@ public class PlInput : MonoBehaviour
            // if (Player[playerNum].ConKind == ConKind.NOTHING)//既に登録されてなければ
           //  {
                 Player[playerNum].ConKind = ConKind;
-                Debug.Log(GetConKind(playerNum));
+               // Debug.Log(GetConKind(playerNum));
                 conkind1 = Player[0].ConKind;
                 conkind2 = Player[1].ConKind;
                 return 0;
@@ -294,17 +294,17 @@ public class PlInput : MonoBehaviour
         Player[1] = new Playerinfo();
         //conkind1 = ConKind.KEYBOARD1;
        // conkind2 = ConKind.KEYBOARD2;
-        ShowConKind();
+       // ShowConKind();
 
     }
     // Use this for initialization
     void Start()
     {
-        ShowConKind();
+        //ShowConKind();
         Player[0].ConKind = conkind1;
         Player[1].ConKind = conkind2;
         Debug.Log("PlInput start");
-        ShowConKind();
+       // ShowConKind();
     }
 
     // Update is called once per frame

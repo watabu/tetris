@@ -37,7 +37,7 @@ public class GameBoardModifier : MonoBehaviour
 
     Vector3Int leftBottomCood;//ボードの左下の座標
     Vector3Int rightTopCood;//ボードの右上の座標
-    int height;//ボードの高さ
+    public int height;//ボードの高さ
     int width;//ボードの幅
     AudioSource audioSources;
 
@@ -65,30 +65,38 @@ public class GameBoardModifier : MonoBehaviour
         rightTopCood = rightTopCood_;
         height = height_;
         width = width_ +1;
+        Debug.Log("<color=blue>"+leftBottomCood+rightTopCood+"</color>");
+        Debug.Log("<color=blue>" +height+ width + "</color>");
     }
     //ミノが一列すべてうまったかどうかを確認する
     //ミノの操作が止まった時実行する
     public void CheckLine()
     {
+        Debug.Log("<color=blue>CheckLineStart</color>");
         var yList = new List<int>();//どのy座標が埋まったかのリスト
+        Debug.Log("<color=blue>"+height+"</color>");
         for (int y = 0; y < height; y++)
         {
+            Debug.Log("<color=blue>CheckLine</color>");
             int xCount = 0;
             for (int x = 0; x < width; x++)
                 if (!gameBoardScript.IsEmpty(BoardLayer.Default, leftBottomCood.x + x, leftBottomCood.y + y))//もし空白がなかったら
                     xCount++;
             if (xCount == width)//１行すべて埋まってたらリストに追加
                 yList.Add(y);
+            Debug.Log("<color=blue>" + xCount + "</color>");
         }
         if (yList.Count == 0)
         {
             OnMinoEraced.Invoke(yList.Count, minoController);//Renが途切れることを知らせる
+            Debug.Log("<color=blue> yListis0</color>");
             return;//もし埋まっている列がなかったら終了
         }
         OnMinoFilled.Invoke();
         int n = -1;
         foreach (var yLaw in yList)
         {
+            Debug.Log("<color=blue> yList!=0</color>");
             n++;//下げられた消された列のyと下げられてないyLawを合わせるための補正
             //minoController.RemoveCells();
             for (int x = 0; x < width; x++)

@@ -20,10 +20,10 @@ MonoBehaviour:
     y: 30
     width: 1201
     height: 597
-  m_MinSize: {x: 909, y: 400}
-  m_MaxSize: {x: 22004, y: 10024}
+  m_MinSize: {x: 917, y: 448}
+  m_MaxSize: {x: 22012, y: 10024}
   vertical: 1
-  controlID: 13015
+  controlID: 11924
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -45,8 +45,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0.6666667
-    y: 402.6667
+    x: -6
+    y: 388.6667
     width: 484
     height: 279
   m_PersistentViewDataDictionary: {fileID: 0}
@@ -127,10 +127,10 @@ MonoBehaviour:
     y: 0
     width: 1201
     height: 597
-  m_MinSize: {x: 909, y: 400}
-  m_MaxSize: {x: 22004, y: 10024}
+  m_MinSize: {x: 917, y: 448}
+  m_MaxSize: {x: 22012, y: 10024}
   vertical: 0
-  controlID: 13016
+  controlID: 11925
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -152,10 +152,10 @@ MonoBehaviour:
     y: 0
     width: 486
     height: 597
-  m_MinSize: {x: 200, y: 400}
-  m_MaxSize: {x: 4000, y: 8000}
+  m_MinSize: {x: 202, y: 448}
+  m_MaxSize: {x: 4002, y: 8048}
   vertical: 1
-  controlID: 13017
+  controlID: 11926
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -202,8 +202,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0.6666667
-    y: 104.66667
+    x: -6
+    y: 90.66667
     width: 484
     height: 278
   m_PersistentViewDataDictionary: {fileID: 0}
@@ -334,17 +334,17 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 486.6667
-    y: 104.66667
+    x: 480
+    y: 90.66667
     width: 200
     height: 577
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 16}
+      scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 2a88d4fff288d4ff5c9fe3ffe4c7e7ffca47f4ff1a48f4ff2c15f6ff5cfefbffd6fefbff6afffbff8200fcffb600fcff4017fdffbcfbffff020e0000f00e0000983e0000f83e0000243f00006a5a0000965a0000685e0000c85e0000f45e00002c5f0000b65f0000c65f0000fa7b0000287c00004a82000078820000c28200006ead0000c8ae0000
+      m_ExpandedIDs: d4fbfffffc0d00002c0e0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -415,8 +415,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 690.6667
-    y: 104.66667
+    x: 684
+    y: 90.66667
     width: 230
     height: 577
   m_PersistentViewDataDictionary: {fileID: 0}
@@ -432,20 +432,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/GameScript/Utility
+    - Assets/Resorces
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scripts/GameScript/Utility
+  - Assets/Resorces
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\VisualStudio2017\unity\integrated\Tetris
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: dc0b0000
-    m_LastClickedID: 3036
-    m_ExpandedIDs: 00000000f2090000220a0000560a0000820a0000740b0000a60b0000720c0000740c0000c20c000000ca9a3b
+    m_SelectedIDs: 4e0a0000
+    m_LastClickedID: 2638
+    m_ExpandedIDs: 00000000dc0900000c0a0000400a00004e0a00006c0a00005e0b0000920b00005e0c0000600c0000ae0c000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -473,7 +473,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000f2090000220a0000560a0000820a0000740b0000a60b0000720c0000740c0000c20c000000ca9a3b
+    m_ExpandedIDs: 00000000dc0900000c0a0000400a00004e0a00006c0a00005e0b0000920b00005e0c0000600c0000ae0c000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -498,8 +498,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 94090000
-    m_LastClickedInstanceID: 2452
+    m_SelectedInstanceIDs: fc0d0000
+    m_LastClickedInstanceID: 3580
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 940a0000fc0b0000300b0000
     m_RenameOverlay:
@@ -547,8 +547,8 @@ MonoBehaviour:
     y: 0
     width: 277
     height: 597
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 277, y: 74}
+  m_MaxSize: {x: 4002, y: 4024}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -575,8 +575,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 924.6667
-    y: 104.66667
+    x: 918
+    y: 90.66667
     width: 275
     height: 577
   m_PersistentViewDataDictionary: {fileID: 0}

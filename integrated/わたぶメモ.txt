@@ -13,7 +13,6 @@ https://www45.atwiki.jp/tetriskakera/pages/24.html
 
 見つけた不具合など
 ・ホールドできない？
-・2Pは消せない？
 ・Game以外のシーンからGameに行けないが、Gameシーンから初めてタイトルを通すと2PconectからGameに行ける
 
 明日中にやる
