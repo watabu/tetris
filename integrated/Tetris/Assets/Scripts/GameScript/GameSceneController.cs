@@ -119,16 +119,16 @@ public class GameSceneController : MonoBehaviour {
         }
     }
     //プレイヤーにオジャマミノを送る関数
-    //playerNum 送るプレイヤーの番号 holeX 穴をあける座標
-    public void SendOjama(int playerNum,int height,int holeX)
+    //playerNum 送られるプレイヤーの番号 holeX 穴をあける座標
+    public void SendOjama(int playerNum,int height)
     {
         switch (playerNum)
         {
             case 0:
-                playerControll1P.SetOjama(height, holeX);
+                playerControll1P.SetOjama(height);
                 break;
             case 1:
-                playerControll2P.SetOjama(height, holeX);
+                playerControll2P.SetOjama(height);
                 break;
         }
     }

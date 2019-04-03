@@ -103,14 +103,21 @@ public class OjamaBlock : MonoBehaviour
     {
         List<int> list = new List<int>();
         if (list.Count != 0) { list.Clear(); }
-        if (Ren(playerNum) != -1)//REN中でないなら
-        { return null; }//おじゃまブロックを生成しない
+        if (Ren(playerNum) != -1)//REN中なら
+        { return list; }//おじゃまブロックを生成しない list.Count ==0
         else
         {
+ 
             //OjamaStockからいろいろする
             for (int i = 0; i < MaxRen; i++)
             {
-                list.Add(OjamaStock[playerNum][i]);
+                int n;
+                if (OjamaStock[playerNum][i] != 0)
+                {
+                    n = OjamaStock[playerNum][i];
+                    list.Add(n);
+                    OjamaStock[playerNum][i] = 0;
+                }
             }
             return list;
 

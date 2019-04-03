@@ -73,24 +73,20 @@ public class GameBoardModifier : MonoBehaviour
     //ミノの操作が止まった時実行する
     public void CheckLine()
     {
-        Debug.Log("<color=blue>CheckLineStart</color>");
         var yList = new List<int>();//どのy座標が埋まったかのリスト
-        Debug.Log("<color=blue>"+height+"</color>");
         for (int y = 0; y < height; y++)
         {
-            Debug.Log("<color=blue>CheckLine</color>");
+            //Debug.Log("<color=blue>CheckLine</color>");
             int xCount = 0;
             for (int x = 0; x < width; x++)
                 if (!gameBoardScript.IsEmpty(BoardLayer.Default, leftBottomCood.x + x, leftBottomCood.y + y))//もし空白がなかったら
                     xCount++;
             if (xCount == width)//１行すべて埋まってたらリストに追加
                 yList.Add(y);
-            Debug.Log("<color=blue>" + xCount + "</color>");
         }
         if (yList.Count == 0)
         {
             OnMinoEraced.Invoke(yList.Count, minoController);//Renが途切れることを知らせる
-            Debug.Log("<color=blue> yListis0</color>");
             return;//もし埋まっている列がなかったら終了
         }
         int n = -1;
@@ -98,7 +94,6 @@ public class GameBoardModifier : MonoBehaviour
         OnMinoFilled.Invoke(yList.Count, minoController);
         foreach (var yLaw in yList)
         {
-            Debug.Log("<color=blue> yList!=0</color>");
             n++;//下げられた消された列のyと下げられてないyLawを合わせるための補正
             //minoController.RemoveCells();
             for (int x = 0; x < width; x++)
@@ -114,23 +109,29 @@ public class GameBoardModifier : MonoBehaviour
     }
     //オジャマミノを自分のボードに生成する
     //ojamaSize どれだけの高さか
-    //holeX どの位置に穴を設けるか
-    public void GenerateOjama(int ojamaSize, int holeX)
+    //holeX いずれ盤面の情報を取得するかもしれないのでここでholeXを決める
+    public void GenerateOjama(int ojamaSize)
     {
+        int holeX;
         if (ojamaSize > height)
 
         {
+            //そのうち限界まで積み上げて負け処理に
             Debug.LogError("Ojama size is bigger than board size");
             return;
         }
+        holeX = Random.Range(0, width + 1);
+        Debug.Log("<color=2f2>holeX is"+ holeX+"</color>");
         for (int y = rightTopCood.y; y >= leftBottomCood.y; y--)
             for (int x = 0; x < width; x++)
                 gameBoardScript.MoveCell(BoardLayer.Default, leftBottomCood.x + x, y, 0, ojamaSize);//上のセルを下に移動
 
         for (int y = 0; y < ojamaSize; y++)
             for (int x = 0; x < width; x++)
-                gameBoardScript.SetCell(BoardLayer.Default, Ojama, leftBottomCood.x + x, leftBottomCood.y + y);
-
+                if (x != holeX)
+                {
+                    gameBoardScript.SetCell(BoardLayer.Default, Ojama, leftBottomCood.x + x, leftBottomCood.y + y);
+                }
     }
 
 

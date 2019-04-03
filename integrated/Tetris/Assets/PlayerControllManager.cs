@@ -52,8 +52,8 @@ public class PlayerControllManager : MonoBehaviour
     {
         minoRegister.RegisterMino(mino_);
     }
-    public void SetOjama(int height,int holeX)
+    public void SetOjama(int height)
     {
-        boardModifier.GenerateOjama(height, holeX);
+        boardModifier.GenerateOjama(height);
     }
 }

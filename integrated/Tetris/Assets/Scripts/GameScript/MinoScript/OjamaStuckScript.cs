@@ -42,7 +42,7 @@ public class OjamaStuckScript : MonoBehaviour
        
             for (int i = 0; i < SpriteList.Count; i++)//一回全部消す
             {
-                Debug.Log("<color = blue>pliesprite deleted</color>");
+                //Debug.Log("<color=blue>pliesprite deleted</color>");
                 // DestroyImmediate(SpriteList[i],true);
                 Destroy(SpriteList[i]);
             }
@@ -51,8 +51,8 @@ public class OjamaStuckScript : MonoBehaviour
             {               
                 GameObject pilesprite = Instantiate(pileSprite, new Vector3(0, 0.3f * i-2.1f, 0), Quaternion.identity) as GameObject;
                 pilesprite.transform.SetParent(this.transform, false);
-                SpriteList.Add(pileSprite);
-                Debug.Log("<color=blue>pliesprite placed</color>");
+                SpriteList.Add(pilesprite);
+               // Debug.Log("<color=blue>pliesprite placed</color>");
             }
 
         }

@@ -8677,7 +8677,23 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: EraceManager+RenCallBack, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  Ojama: {fileID: 0}
+  OnOjamaGenerated:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1677603361}
+        m_MethodName: SendOjama
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: EraceManager+OjamaCallBack, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  Ojama: {fileID: 695790444}
   playerID: 1
 --- !u!4 &695790442
 Transform:
@@ -28187,7 +28203,23 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: EraceManager+RenCallBack, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  Ojama: {fileID: 0}
+  OnOjamaGenerated:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1677603361}
+        m_MethodName: SendOjama
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: EraceManager+OjamaCallBack, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  Ojama: {fileID: 1950347317}
   playerID: 0
 --- !u!114 &1950347316
 MonoBehaviour:

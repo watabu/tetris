@@ -12,7 +12,8 @@ public class EraceManager : MonoBehaviour
 {
     [System.Serializable]
     public class RenCallBack : UnityEngine.Events.UnityEvent<int> { }
-
+    [System.Serializable]
+    public class OjamaCallBack: UnityEngine.Events.UnityEvent<int,int> { }
     [Header("Mino reference")]
     public GameObject TMino;
     public MinoControllerScript minoController;
@@ -23,7 +24,8 @@ public class EraceManager : MonoBehaviour
     RenCallBack OnRenChanged;//Renを更新する
     [SerializeField]
     RenCallBack OnStuckChanged;//Renを更新する
-
+    [SerializeField]
+    OjamaCallBack OnOjamaGenerated;//おじゃまを生成する
     GameBoardScript gameBoard;
     public OjamaBlock Ojama;
     [Range(0, 3)]
@@ -55,7 +57,7 @@ public class EraceManager : MonoBehaviour
 
             Ojama.SendOjama(player, 0);
             OnRenChanged.Invoke(-1);
-            GenarateOjama(Ojama.GetOjama(player));//とりあえずplayer１だけ
+            GenarateOjama(Ojama.GetOjama(player));//消していないのでストックにあるならおじゃまを生成する
 
             return;
         }
@@ -79,7 +81,7 @@ public class EraceManager : MonoBehaviour
             Debug.Log(Ojama.Ren(0));
             Debug.Log("Send Ojama is");
             Debug.Log(yCount);*/
-            OnRenChanged.Invoke(Ojama.Ren(0));//Ren表記
+            OnRenChanged.Invoke(Ojama.Ren(player));//Ren表記
         }
 
     }
@@ -88,11 +90,21 @@ public class EraceManager : MonoBehaviour
 
     public void GenarateOjama(List<int> Ojamalist)
     {
-        if (Ojamalist == null) return;//送られるものがない
-
-
-
-
+        if (Ojamalist == null)
+        {
+            Debug.LogWarning("Ojamalist == null");
+            return;
+        }
+        if (Ojamalist.Count <= 0)
+        {
+            return;
+        }//なんもなかった
+        //おじゃまブロックの生成　穴の位置を確立でばらけさすのは今度  
+       
+        foreach(var height in Ojamalist)
+        {
+            OnOjamaGenerated.Invoke(playerID,height);
+        }
 
     }
 

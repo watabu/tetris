@@ -4,3 +4,8 @@ Renの処理上消されたときといっても消されなくても０として送る
 消した時点でおじゃまブロックが送られるが、
 自分がもらったおじゃまブロックの相殺が完璧にされてから自分以外の誰かに送られる。
 おじゃまブロックを誰がどれぐらいためてるかはOjamaBlockがstaticな配列で一括して持っている。
+
+EraceManager - GameSceneController - PlayerControllManager - GameBoardModifier
+おじゃまブロックの生成はこの順番で呼び出される
+関数を置くとこに迷い結局便利なEraceManagerにおいてしまった
+途中飛ばしてGameBoardModifierにも行けそうだが拡張性がなさそう
