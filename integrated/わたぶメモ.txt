@@ -12,7 +12,6 @@ http://clocklaboratory.s1001.xrea.com/game/others/puyotetris.html
 https://www45.atwiki.jp/tetriskakera/pages/24.html
 
 見つけた不具合など
-・ホールドできない？
 ・Game以外のシーンからGameに行けないが、Gameシーンから初めてタイトルを通すと2PconectからGameに行ける
 
 明日中にやる

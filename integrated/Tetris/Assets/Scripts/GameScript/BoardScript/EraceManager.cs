@@ -24,10 +24,6 @@ public class EraceManager : MonoBehaviour
     [SerializeField]
     RenCallBack OnStuckChanged;//Renを更新する
 
-<<<<<<< HEAD
-=======
-
->>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
     GameBoardScript gameBoard;
     public OjamaBlock Ojama;
     [Range(0, 3)]
@@ -36,11 +32,7 @@ public class EraceManager : MonoBehaviour
     {
         Ojama = GetComponent<OjamaBlock>();
         gameBoard = GetComponent<GameBoardScript>();
-<<<<<<< HEAD
-=======
-        
 
->>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
     }
     // Start is called before the first frame update
     void Start()
@@ -57,7 +49,6 @@ public class EraceManager : MonoBehaviour
     //yCount 消された列の総数
     public void CheckEraceMino(int yCount, MinoControllerScript mino)
     {
-<<<<<<< HEAD
         int player = playerID;
         if (yCount <= 0 || mino == null)//消されていない
         {
@@ -65,13 +56,7 @@ public class EraceManager : MonoBehaviour
             Ojama.SendOjama(player, 0);
             OnRenChanged.Invoke(-1);
             GenarateOjama(Ojama.GetOjama(player));//とりあえずplayer１だけ
-=======
-        if (yCount <= 0)
-        {
-            Ojama.SendOjama(0, 0);
-            OnRenChanged.Invoke(-1);
-            GenarateOjama(Ojama.GetOjama(0));//とりあえずplayer１だけ
->>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
+
             return;
         }
         //もし消したミノがT型のとき、
@@ -83,14 +68,9 @@ public class EraceManager : MonoBehaviour
             //Tの４隅が埋まってるとき
             if (gameBoard.IsEmpty(BoardLayer.Default, minoLeftTop) && gameBoard.IsEmpty(BoardLayer.Default, minoLeftTop + new Vector3Int(2, 0, 0)) &&
                 gameBoard.IsEmpty(BoardLayer.Default, minoLeftTop + new Vector3Int(0, -2, 0)) && gameBoard.IsEmpty(BoardLayer.Default, minoLeftTop + new Vector3Int(2, -2, 0)))
-<<<<<<< HEAD
                 OnEraceByTSpin.Invoke();//Tspinエフェクトなど
             Ojama.SendOjama(player, yCount);
             OnRenChanged.Invoke(Ojama.Ren(0));//Ren表記
-=======
-                OnEraceByTSpin.Invoke();
->>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
-            // OnRenChanged.Invoke(-1);
         }
         else//普通に消したとき
         {
@@ -103,11 +83,9 @@ public class EraceManager : MonoBehaviour
         }
 
     }
-<<<<<<< HEAD
 
     //盤面に生成する関数はGameBoardModifier.csにある
-=======
->>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
+
     public void GenarateOjama(List<int> Ojamalist)
     {
         if (Ojamalist == null) return;//送られるものがない

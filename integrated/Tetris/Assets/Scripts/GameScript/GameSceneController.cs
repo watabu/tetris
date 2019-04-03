@@ -9,12 +9,11 @@ using UnityEngine.SceneManagement;
 //ミノのコントローラに新しいミノを登録させる
 //
 //3/21 １プレイヤー分のオブジェクトをまとめて管理するクラスと分離
-<<<<<<< HEAD
-//4/3   PauseUIを追加　ポーズ画面を表示するUI
-=======
+
 //4/ 1  SendOjama関数を実装
 //     プレイヤーにオジャマミノを送れるように
->>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
+//4/3   PauseUIを追加　ポーズ画面を表示するUI
+
 public class GameSceneController : MonoBehaviour {
     //各クラスの参照
     [Header("1P Object References")]
@@ -103,7 +102,6 @@ public class GameSceneController : MonoBehaviour {
         playerControll1P.EndGame();
         playerControll2P.EndGame();
     }
-<<<<<<< HEAD
     public void Pause(bool pause)
     {
         PauseUI pauseScript = pauseUI.GetComponent<PauseUI>();
@@ -118,7 +116,8 @@ public class GameSceneController : MonoBehaviour {
         else
         {
             pauseScript.FadeOut();
-=======
+        }
+    }
     //プレイヤーにオジャマミノを送る関数
     //playerNum 送るプレイヤーの番号 holeX 穴をあける座標
     public void SendOjama(int playerNum,int height,int holeX)
@@ -131,7 +130,6 @@ public class GameSceneController : MonoBehaviour {
             case 1:
                 playerControll2P.SetOjama(height, holeX);
                 break;
->>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
         }
     }
 
