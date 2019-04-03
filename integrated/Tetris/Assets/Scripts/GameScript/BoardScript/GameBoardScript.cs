@@ -160,7 +160,7 @@ public class GameBoardScript : MonoBehaviour
     public bool SetCell(BoardLayer layer, TileBase cell, int destinationX, int destinationY)
     {
         if (!activeFlag) return false;
-        if (!IsEmpty(layer, destinationX, destinationY))return false;
+        //if (!IsEmpty(layer, destinationX, destinationY))return false;
         return ReDefineCell(GetLayer(layer), cell, destinationX, destinationY);
     }
 

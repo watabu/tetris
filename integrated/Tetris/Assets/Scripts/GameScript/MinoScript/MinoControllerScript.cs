@@ -328,7 +328,8 @@ public class MinoControllerScript : MonoBehaviour
     void EraceControllCells()
     {
         foreach (var cell in cells)
-            gameBoard.SetCell(BoardLayer.Default, null, cell.x, cell.y);
+            if (!IsNull(cell))
+                gameBoard.SetCell(BoardLayer.Default, null, cell.x, cell.y);
     }
 
     //格納しているセルの座標が不正な値の時trueを返す

@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 //ミノのコントローラに新しいミノを登録させる
 //
 //3/21 １プレイヤー分のオブジェクトをまとめて管理するクラスと分離
-//
+//4/3   PauseUIを追加　ポーズ画面を表示するUI
 public class GameSceneController : MonoBehaviour {
     //各クラスの参照
     [Header("1P Object References")]
@@ -23,6 +23,7 @@ public class GameSceneController : MonoBehaviour {
     [Header("UI Prefab")]
     public GameObject readyCanvasPrefab;
     public GameObject endDialogPrefab;
+    public GameObject pauseUI;
 
     //シーンの状態を表す変数
     private enum GameState
@@ -97,6 +98,21 @@ public class GameSceneController : MonoBehaviour {
         playerControll1P.EndGame();
         playerControll2P.EndGame();
     }
-    
+    public void Pause(bool pause)
+    {
+        PauseUI pauseScript = pauseUI.GetComponent<PauseUI>();
+        if (pause)
+        {
+            if (!pauseUI.active)
+            {
+                pauseUI.SetActive(true);
+            }
+            pauseScript.FadeIn();
+        }
+        else
+        {
+            pauseScript.FadeOut();
+        }
+    }
 
 }
