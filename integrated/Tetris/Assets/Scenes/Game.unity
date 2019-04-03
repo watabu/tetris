@@ -8590,7 +8590,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &695790440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8608,7 +8608,7 @@ MonoBehaviour:
   OnMinoFilled:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+    m_TypeName: GameBoardModifier+ModifierCallBack, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   OnMinoEraced:
     m_PersistentCalls:
@@ -14083,7 +14083,11 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1140106118}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 --- !u!1 &991915769
+=======
+--- !u!1 &981187097
+>>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14091,22 +14095,35 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< HEAD
   - component: {fileID: 991915770}
   - component: {fileID: 991915772}
   - component: {fileID: 991915771}
   m_Layer: 5
   m_Name: Text
+=======
+  - component: {fileID: 981187099}
+  - component: {fileID: 981187098}
+  m_Layer: 0
+  m_Name: New Sprite
+>>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD
 --- !u!224 &991915770
 RectTransform:
+=======
+--- !u!212 &981187098
+SpriteRenderer:
+>>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 991915769}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -14156,12 +14173,69 @@ MonoBehaviour:
   m_Text: Continue
 --- !u!222 &991915772
 CanvasRenderer:
+=======
+  m_GameObject: {fileID: 981187097}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.16, y: 0.16}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &981187099
+Transform:
+>>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 991915769}
   m_CullTransparentMesh: 0
+=======
+  m_GameObject: {fileID: 981187097}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.054719917, y: 0.5057537, z: 0.06640625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+>>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
 --- !u!1 &1048405297
 GameObject:
   m_ObjectHideFlags: 0
@@ -27030,6 +27104,7 @@ MonoBehaviour:
   nextMino: {fileID: 575487383}
   minoController: {fileID: 1988452642}
   minoRegister: {fileID: 1950347316}
+  boardModifier: {fileID: 1950347314}
 --- !u!4 &1626867388
 Transform:
   m_ObjectHideFlags: 0
@@ -27833,7 +27908,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1938957392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28107,7 +28182,7 @@ MonoBehaviour:
   OnMinoFilled:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+    m_TypeName: GameBoardModifier+ModifierCallBack, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   OnMinoEraced:
     m_PersistentCalls:
@@ -28142,7 +28217,18 @@ MonoBehaviour:
   minoController: {fileID: 1988452643}
   OnEraceByTSpin:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1950347315}
+        m_MethodName: GenerateTSpin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   OnRenChanged:
@@ -28747,7 +28833,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2076179157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28764,6 +28850,7 @@ MonoBehaviour:
   nextMino: {fileID: 564960985}
   minoController: {fileID: 1938957391}
   minoRegister: {fileID: 695790445}
+  boardModifier: {fileID: 695790440}
 --- !u!4 &2076179158
 Transform:
   m_ObjectHideFlags: 0
