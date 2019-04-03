@@ -43,7 +43,12 @@ public class BoardMinoRegister : MonoBehaviour
 
         Vector3Int[,] cellscood = ConvertMinoData(cells, tile);
 
+<<<<<<< HEAD
         minoController.RegisterCells(mino, cellscood, generateCood + new Vector3Int(0, -(cells.GetLength(0) - 1), 0));//どの座標のセルを移動させるかの情報を渡す
+=======
+        minoController.RegisterCells(mino, cellscood, generateCood + new Vector3Int(0, -(cells.GetLength(0)-1),0));//どの座標のセルを移動させるかの情報を渡す
+
+>>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
     }
 
     //ミノのbool配列のデータとtileから
@@ -56,10 +61,10 @@ public class BoardMinoRegister : MonoBehaviour
             for (int x = 0; x < minoLength; x++)
                 if (minoShapeData[y, x])//ミノから生成したセルが(x,y)のマスで存在するとき
                 {
-                    if (gameBoard.IsEmpty(BoardLayer.Default, generateCood.x + x, generateCood.y + y + (1 - minoLength)))//生成するマスでミノが存在しないとき
+                    if (gameBoard.IsEmpty(BoardLayer.Default, generateCood.x + x, generateCood.y+ y - (minoLength - 1)))//生成するマスでミノが存在しないとき
                     {
-                        gameBoard.SetCell(BoardLayer.Default, tile, generateCood.x + x, generateCood.y + y+(1- minoLength));
-                        cellscood[y, x] = new Vector3Int(generateCood.x + x, generateCood.y + y + (1 - minoLength), 0);
+                        gameBoard.SetCell(BoardLayer.Default, tile, generateCood.x + x, generateCood.y + y - (minoLength - 1));
+                        cellscood[y, x] = new Vector3Int(generateCood.x + x, generateCood.y  + y - (minoLength - 1), 0);
                     }
                     else
                     {
@@ -72,5 +77,6 @@ public class BoardMinoRegister : MonoBehaviour
                 }
         return cellscood;
     }
+    
 
 }

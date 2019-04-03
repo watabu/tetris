@@ -312,13 +312,19 @@ public class MinoControllerScript : MonoBehaviour
                 int count = 0;
                 foreach (var cell in cells)
                 {
+<<<<<<< HEAD
                     if (!IsNull(cell) )continue;
                     if (gameBoard.IsEmpty(BoardLayer.Default, cell + new Vector3Int(x, y, 0)) &&
                         gameBoard.IsEmpty(BoardLayer.Default, cell + new Vector3Int(x, y, 0))) count++;
+=======
+                    if (IsNull(cell)) continue;
+                    if (gameBoard.IsEmpty(BoardLayer.Default, cell + new Vector3Int(x, y, 0)) &&
+                         gameBoard.IsEmpty(BoardLayer.Wall, cell + new Vector3Int(x, y, 0))) count++;
+>>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
                 }
                 if (count == 4)
                 {
-                    minoRevisedFlag = true;
+                    minoRevisedFlag = true;//空きスペースに移動したので修正されたフラグを立てる
                     return new Vector3Int(x, y, 0);
                 }
             }
@@ -328,7 +334,8 @@ public class MinoControllerScript : MonoBehaviour
     void EraceControllCells()
     {
         foreach (var cell in cells)
-            gameBoard.SetCell(BoardLayer.Default, null, cell.x, cell.y);
+            if (!IsNull(cell))
+                gameBoard.SetCell(BoardLayer.Default, null, cell.x, cell.y);
     }
 
     //格納しているセルの座標が不正な値の時trueを返す

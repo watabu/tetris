@@ -21,14 +21,18 @@ public class GameBoardModifier : MonoBehaviour
 {
     //たぶんこのクラス内でのみ使うコールバック用クラス
     [System.Serializable]
+<<<<<<< HEAD
     public class ModifierCallBack : UnityEngine.Events.UnityEvent<int,MinoControllerScript>{}
+=======
+    public class ModifierCallBack : UnityEngine.Events.UnityEvent<int, MinoControllerScript> {}
+>>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
 
     [Header("Object refelence")]
     public Tile Ojama;//
     public MinoControllerScript minoController;
 
     [Header("Call Back Function"), SerializeField]
-    UnityEvent OnMinoFilled;//ミノが１列埋まった瞬間実行する関数を格納する変数
+    ModifierCallBack OnMinoFilled;//ミノが１列埋まった瞬間実行する関数を格納する変数
     [SerializeField]
     ModifierCallBack OnMinoEraced;//ミノを消したあと実行する関数を格納する変数
 
@@ -37,7 +41,11 @@ public class GameBoardModifier : MonoBehaviour
 
     Vector3Int leftBottomCood;//ボードの左下の座標
     Vector3Int rightTopCood;//ボードの右上の座標
+<<<<<<< HEAD
     public int height;//ボードの高さ
+=======
+    int height;//ボードの高さ
+>>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
     int width;//ボードの幅
     AudioSource audioSources;
 
@@ -92,8 +100,13 @@ public class GameBoardModifier : MonoBehaviour
             Debug.Log("<color=blue> yListis0</color>");
             return;//もし埋まっている列がなかったら終了
         }
+<<<<<<< HEAD
         OnMinoFilled.Invoke();
         int n = -1;
+=======
+        OnMinoFilled.Invoke(yList.Count, minoController);
+
+>>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
         foreach (var yLaw in yList)
         {
             Debug.Log("<color=blue> yList!=0</color>");
@@ -106,6 +119,7 @@ public class GameBoardModifier : MonoBehaviour
                     gameBoardScript.MoveCell(BoardLayer.Default, leftBottomCood.x + x2, leftBottomCood.y + y2, 0, -1);//上のセルを下に移動
         }
         OnMinoEraced.Invoke(yList.Count,minoController);
+<<<<<<< HEAD
         audioSources.PlayOneShot(audioSources.clip);
         //return true;
     }
@@ -115,6 +129,17 @@ public class GameBoardModifier : MonoBehaviour
     public void GenerateOjama(int ojamaSize, int holeX)
     {
         if (ojamaSize > height)
+=======
+        //return true;
+    }
+
+    //オジャマミノを自分のボードに生成する
+    //ojamaSize どれだけの高さか
+    //holeX どの位置に穴を設けるか
+    public void GenerateOjama(int ojamaSize,int holeX)
+    {
+        if(ojamaSize>height) 
+>>>>>>> eb57a186a3074f471e0cb00db3e9a7486287b9bc
         {
             Debug.LogError("Ojama size is bigger than board size");
             return;
@@ -128,9 +153,9 @@ public class GameBoardModifier : MonoBehaviour
                 gameBoardScript.SetCell(BoardLayer.Default, Ojama, leftBottomCood.x + x, leftBottomCood.y + y);
 
     }
-    
 
-    
+
+
     public void ClearCell()//ゲーム盤のミノを全消去する
     {
     }
