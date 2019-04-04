@@ -86,8 +86,6 @@
     <Compile Include="Assets\Scripts\GameScript\MinoScript\OjamaBlock.cs" />
     <Compile Include="Assets\Scripts\GameScript\MinoScript\OjamaStuckScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\Utility\InputControllerScript.cs" />
-    <Compile Include="Assets\Scripts\GameScript\Utility\TilemapPreview.cs" />
-    <Compile Include="Assets\Scripts\GameScript\Utility\TileRigitBody2D.cs" />
     <Compile Include="Assets\Scripts\GameScript\Utility\UsefulFunctions.cs" />
     <Compile Include="Assets\Scripts\SceneMgrs\ConConect1.cs" />
     <Compile Include="Assets\Scripts\SceneMgrs\ConConect2.cs" />
