@@ -42,6 +42,7 @@ public class ConConect2 : MonoBehaviour
         ConImg2.sprite = Nothing;
         In.ChangePlConkind(0, PlInput.ConKind.NOTHING);
         In.ChangePlConkind(1, PlInput.ConKind.NOTHING);
+        PlInput.PlayingNum = 2;
     }
     //意図的に同じコントローラーを登録できるようにしてる（面白そうだから）
     public void Reconect1()
@@ -57,20 +58,23 @@ public class ConConect2 : MonoBehaviour
                 SE_Submit.PlayOneShot(SE_Submit.clip);
                 ConImg.sprite = KeyBoard1;
             }
-            if (Input.GetKeyDown(KeyCode.X))
+            else if (Input.GetKeyDown(KeyCode.X))
             {
                 In.ChangePlConkind(0, PlInput.ConKind.KEYBOARD2);
                 SE_Submit.PlayOneShot(SE_Submit.clip);
                 ConImg.sprite = KeyBoard2;
             }
-            for (int i = 0; i < 4; i++)
-            {
-                if (GamePad.GetButtonDown(GamePad.Button.B, (GamePad.Index)i))
+            else{
+                for (int i = 0; i < 4; i++)
                 {
-                    In.ChangePlConkind(0, PlInput.ConKind.JOYCON);
-                    SE_Submit.PlayOneShot(SE_Submit.clip);
-                    PlInput.Player[0].JoyConNum = i;
-                    ConImg.sprite = JoyCon;
+                    if (GamePad.GetButtonDown(GamePad.Button.B, (GamePad.Index)i))
+                    {
+                        In.ChangePlConkind(0, PlInput.ConKind.JOYCON);
+                        SE_Submit.PlayOneShot(SE_Submit.clip);
+                        PlInput.Player[0].JoyConNum = i;
+                        PlInput.joyConNum1 = i;
+                        ConImg.sprite = JoyCon;
+                    }
                 }
             }
         }
@@ -81,7 +85,8 @@ public class ConConect2 : MonoBehaviour
             SE_Cancel.PlayOneShot(SE_Cancel.clip);
             ConImg.sprite = Nothing;
         }
-        Debug.Log("Player[0].ConKind is " + PlInput.GetConKind(0));
+      //  Debug.Log("Player[0].ConKind is " + PlInput.GetConKind(0));
+       // ShowConKind();
     }
 
     public void Reconect2()
@@ -102,14 +107,18 @@ public class ConConect2 : MonoBehaviour
                 ConImg.sprite = KeyBoard2;
 
             }
-            for (int i = 0; i < 4; i++)
+            else
             {
-                if (GamePad.GetButtonDown(GamePad.Button.B, (GamePad.Index)i))
+                for (int i = 0; i < 4; i++)
                 {
-                    In.ChangePlConkind(1, PlInput.ConKind.JOYCON);
-                    SE_Submit.PlayOneShot(SE_Submit.clip);
-                    PlInput.Player[1].JoyConNum = i;
-                    ConImg.sprite = JoyCon;
+                    if (GamePad.GetButtonDown(GamePad.Button.B, (GamePad.Index)i))
+                    {
+                        In.ChangePlConkind(1, PlInput.ConKind.JOYCON);
+                        SE_Submit.PlayOneShot(SE_Submit.clip);
+                        PlInput.Player[1].JoyConNum = i;
+                        PlInput.joyConNum2 = i;
+                        ConImg.sprite = JoyCon;
+                    }
                 }
             }
         }
@@ -120,7 +129,8 @@ public class ConConect2 : MonoBehaviour
             SE_Cancel.PlayOneShot(SE_Cancel.clip);
             ConImg.sprite = Nothing;
         }
-        Debug.Log("Player[1].ConKind is " + PlInput.GetConKind(1));
+        // Debug.Log("Player[1].ConKind is " + PlInput.GetConKind(1));
+        //ShowConKind();
     }
     // Update is called once per frame
     void Update()
@@ -131,5 +141,7 @@ public class ConConect2 : MonoBehaviour
     {
         Debug.Log("Player[0].ConKind is " + PlInput.GetConKind(0));
         Debug.Log("Player[1].ConKind is " + PlInput.GetConKind(1));
+        Debug.Log("Player[0].joyconnum is " + PlInput.Player[0].JoyConNum);
+        Debug.Log("Player[1].coyconnum is " + PlInput.Player[1].JoyConNum);
     }
 }

@@ -42,7 +42,7 @@ public class ButtonFunction : MonoBehaviour
         SE_Submit.PlayOneShot(SE_Submit.clip);
        
     }
-    public void MoveTo2PGame()
+    public void MoveToGame()
     {
         SceneManager.LoadScene("Game"); 
         SE_Submit.PlayOneShot(SE_Submit.clip);

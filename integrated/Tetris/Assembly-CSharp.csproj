@@ -73,6 +73,8 @@
     <Compile Include="Assets\Scripts\GameScript\CanvasAnimationScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\Effect\MinoEraceEffect.cs" />
     <Compile Include="Assets\Scripts\GameScript\Effect\MinoFallenEffect.cs" />
+    <Compile Include="Assets\Scripts\GameScript\Effect\RenScript.cs" />
+    <Compile Include="Assets\Scripts\GameScript\Effect\TspinTextscript.cs" />
     <Compile Include="Assets\Scripts\GameScript\GameSceneController.cs" />
     <Compile Include="Assets\Scripts\GameScript\MinoContainerScript\HoldContainer.cs" />
     <Compile Include="Assets\Scripts\GameScript\MinoContainerScript\NextContainerScript.cs" />
@@ -83,7 +85,6 @@
     <Compile Include="Assets\Scripts\GameScript\MinoScript\MinoScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\MinoScript\OjamaBlock.cs" />
     <Compile Include="Assets\Scripts\GameScript\MinoScript\OjamaStuckScript.cs" />
-    <Compile Include="Assets\Scripts\GameScript\MinoScript\RenScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\Utility\InputControllerScript.cs" />
     <Compile Include="Assets\Scripts\GameScript\Utility\TilemapPreview.cs" />
     <Compile Include="Assets\Scripts\GameScript\Utility\TileRigitBody2D.cs" />

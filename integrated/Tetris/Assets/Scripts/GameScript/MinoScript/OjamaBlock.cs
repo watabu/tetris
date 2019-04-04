@@ -18,6 +18,10 @@ public class OjamaBlock : MonoBehaviour
     bool backtoback;//未実装 
     bool Tspin;//未実装
 
+    public void ChangeTspinFlag(int flag) {
+        Tspin = (flag > 0);
+    }
+
     public void SendOjama(int playerNum, int lineNum)
     {
         //何列消したかを送って処理してもらう　操作ミノが固定されたときに呼ぶ。０でも送ること（RENの処理）
@@ -129,12 +133,14 @@ public class OjamaBlock : MonoBehaviour
 
     public int ClearLineToOjamaNum(int num)//消した列の数からおじゃまブロックの列数を返す
     {
+        if (Tspin == true)
+            return 2 * num;
         if (num < 2) return 0;
         else if (num < 4) return num - 1;
         else if (num == 4) return 4;
         else
         {
-            Debug.Log("error in OjamaBlock clearLineToOjamaNum, num > 4");
+            Debug.LogWarning("num > 4");
             return 0;
         }
     }

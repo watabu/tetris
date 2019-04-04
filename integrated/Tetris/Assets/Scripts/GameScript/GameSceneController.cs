@@ -43,11 +43,22 @@ public class GameSceneController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         GenerateStartGUI();
+        if (PlInput.PlayingNum <= 0) PlInput.PlayingNum = 2;
+        if (PlInput.PlayingNum == 1)
+        {
+           // playerControll2P.gameBoard.enabled = false;
+           // playerControll2P.minoRegister.enabled = false;
+            GameObject gameboard2P = GameObject.Find("2PGameBoard");
+            gameboard2P.SetActive(false);
+            GameObject gameboard1P = GameObject.Find("1PGameBoard");
+            Vector3 vector = gameboard1P.transform.position;
+            vector.x = -3;
+            gameboard1P.transform.position = vector;
+        }
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 
     void GenerateStartGUI()
@@ -59,6 +70,8 @@ public class GameSceneController : MonoBehaviour {
         //どうやらゲーム中にSubmittをするとこのボタンを押してしまうらしい
         GameObject button = readyCanvas.transform.Find("Button").gameObject;
         button.GetComponent<Button>().onClick.AddListener(StartGame);
+        Button startButton = GameObject.Find("/Canvas(Clone)/Button").GetComponent<Button>();
+        startButton.Select();
         //button.SetActive(false);
     }
     void GenerateEndGUI()
@@ -72,15 +85,24 @@ public class GameSceneController : MonoBehaviour {
         button.GetComponent<Button>().onClick.AddListener(() => { Destroy(endCanvas); });*/
         GameObject end = endCanvas.transform.Find("End").gameObject;
         end.GetComponent<Button>().onClick.AddListener(() => { SceneManager.LoadScene("Title"); });
-        
+        Button restartButton = GameObject.Find("/GameOverUI(Clone)/Restart").GetComponent<Button>();
+        restartButton.Select();
     }
 
     //ゲームを開始させる関数
     public void StartGame()
     {
-        state=GameState.Ready;
-        playerControll1P.StartGame();
-        playerControll2P.StartGame();
+        Debug.Log(PlInput.PlayingNum);
+        state = GameState.Ready;
+        if (PlInput.PlayingNum == 1)
+        {
+            playerControll1P.StartGame();
+        }
+        else if (PlInput.PlayingNum == 2)
+        {
+            playerControll1P.StartGame();
+            playerControll2P.StartGame();
+        }
     }
 
     //ゲームを終了させる関数

@@ -26,7 +26,17 @@ public class ConConect1 : MonoBehaviour
         SE_Cancel = audioSources[0];
 
     }
-
+    private void Start()
+    {//コントローラー初期化等
+        Debug.Log("ConConect1 Start");
+        reconect.Select();
+        var ConImg = GameObject.Find("/Canvas/Panel/ConImage").GetComponent<Image>();
+        In.ChangePlConkind(0, PlInput.ConKind.NOTHING);
+        PlInput.Player[0].JoyConNum = -1;
+        ConImg.sprite = Nothing;  
+        In.ChangePlConkind(0, PlInput.ConKind.NOTHING);
+        PlInput.PlayingNum = 1;
+    }
     public void Reconect1()
     {
         var ConImg = GameObject.Find("/Canvas/Panel/ConImage").GetComponent<Image>();
@@ -45,14 +55,18 @@ public class ConConect1 : MonoBehaviour
                 SE_Submit.PlayOneShot(SE_Submit.clip);
                 ConImg.sprite = KeyBoard2;
             }
-            for (int i = 0; i < 4; i++)
+            else
             {
-                if (GamePad.GetButtonDown(GamePad.Button.B, (GamePad.Index)i))
+                for (int i = 0; i < 4; i++)
                 {
-                    In.ChangePlConkind(0, PlInput.ConKind.JOYCON);
-                    PlInput.Player[0].JoyConNum = i;
-                    SE_Submit.PlayOneShot(SE_Submit.clip);
-                    ConImg.sprite = JoyCon;
+                    if (GamePad.GetButtonDown(GamePad.Button.B, (GamePad.Index)i))
+                    {
+                        In.ChangePlConkind(0, PlInput.ConKind.JOYCON);
+                        PlInput.Player[0].JoyConNum = i;
+                        SE_Submit.PlayOneShot(SE_Submit.clip);
+                        ConImg.sprite = JoyCon;
+                        PlInput.joyConNum1 = i;
+                    }
                 }
             }
         }

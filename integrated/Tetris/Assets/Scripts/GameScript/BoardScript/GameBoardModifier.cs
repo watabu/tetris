@@ -40,11 +40,11 @@ public class GameBoardModifier : MonoBehaviour
 
     int height;//ボードの高さ
     int width;//ボードの幅
-    AudioSource audioSources;
+
 
     private void Awake()
     {
-        audioSources = GetComponent<AudioSource>();
+
         if (OnMinoEraced == null) OnMinoEraced = new ModifierCallBack(); //イベント・インスタンスの作成
     }
 
@@ -66,8 +66,6 @@ public class GameBoardModifier : MonoBehaviour
         rightTopCood = rightTopCood_;
         height = height_;
         width = width_ +1;
-        Debug.Log("<color=blue>"+leftBottomCood+rightTopCood+"</color>");
-        Debug.Log("<color=blue>" +height+ width + "</color>");
     }
     //ミノが一列すべてうまったかどうかを確認する
     //ミノの操作が止まった時実行する
@@ -104,7 +102,6 @@ public class GameBoardModifier : MonoBehaviour
         }
         OnMinoEraced.Invoke(yList.Count,minoController);
 
-        audioSources.PlayOneShot(audioSources.clip);
         //return true;
     }
     //オジャマミノを自分のボードに生成する
@@ -127,11 +124,14 @@ public class GameBoardModifier : MonoBehaviour
                 gameBoardScript.MoveCell(BoardLayer.Default, leftBottomCood.x + x, y, 0, ojamaSize);//上のセルを下に移動
 
         for (int y = 0; y < ojamaSize; y++)
+        {
             for (int x = 0; x < width; x++)
+                //Sleepとか使って下からだんだんとせりあがってくるようにしたいが非同期の遅延はわからなかった
                 if (x != holeX)
                 {
                     gameBoardScript.SetCell(BoardLayer.Default, Ojama, leftBottomCood.x + x, leftBottomCood.y + y);
                 }
+        }
     }
 
 

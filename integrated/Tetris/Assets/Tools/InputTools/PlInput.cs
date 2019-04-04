@@ -13,8 +13,12 @@ using GamepadInput;
  */
 public class PlInput : MonoBehaviour
 {
+    static public int joyConNum1 ;
+    static public int joyConNum2 ;
+
     public const int MaxPlayerNum = 2;//最大プレイ人数
-    public const int MaxKey = 5;//キーの数
+    public static int PlayingNum;
+    public const int MaxKey = 6;//キーの数
     public const double fixtime = 0.25;
     public enum ConKind
     {
@@ -29,7 +33,8 @@ public class PlInput : MonoBehaviour
         KEY_VERTICAL,//上が１、下がー１
         KEY_SUBMIT,//Aボタン　右回転
         KEY_CANCEL,//Bボタン　左回転
-        KEY_HOLD//Lボタン or R
+        KEY_HOLD,//Lボタン or R
+        KEY_PAUSE
     }//
     public class Playerinfo//プレイヤーの情報を持っておく 他に追加するかもしれないので一応クラスにしておく
     {
@@ -207,6 +212,12 @@ public class PlInput : MonoBehaviour
                         if (Input.GetKey(KeyCode.Space)) return 1;
 
                         break;
+                    case Key.KEY_PAUSE:
+                        if (Input.GetKey(KeyCode.T))
+                        {
+                            return 1;
+                        }
+                        break;
                 }
                 return 0;
             //break;   
@@ -232,6 +243,13 @@ public class PlInput : MonoBehaviour
                         if (Input.GetKey(KeyCode.Space)) return 1;
 
                         break;
+                    case Key.KEY_PAUSE:
+                        if (Input.GetKey(KeyCode.T))
+                        {
+  
+                            return 1;
+                        }
+                        break;
                 }
                 return 0;
             //break;  
@@ -250,7 +268,7 @@ public class PlInput : MonoBehaviour
                                 break;
                             case Key.KEY_VERTICAL:
                                 if (state.RightTrigger > 0) return 1;
-                                if (state.RightTrigger < 0) return -1;
+                                if (state.RightTrigger < -0.6) return -1;
                                 break;
                             case Key.KEY_SUBMIT:
                                 if (state.B) return 1;
@@ -262,6 +280,13 @@ public class PlInput : MonoBehaviour
                             case Key.KEY_HOLD:
                                 if (state.LeftShoulder) return 1;
                                 if (state.RightShoulder) return 1;
+                                break;
+                            case Key.KEY_PAUSE:
+                                if (state.LeftStick || state.RightStick)
+                                {
+                                  
+                                    return 1;
+                                }
                                 break;
                         }
 
@@ -275,7 +300,9 @@ public class PlInput : MonoBehaviour
     }
 
     public void Awake()//Startから内容をうつした
-    {     
+    {
+        Debug.Log("PlInput Awake");
+        Debug.Log(joyConNum1 +" "+ joyConNum2);
         Keystatus = new int[MaxPlayerNum][][];
         KeyPushcount = new double[MaxPlayerNum][];
         for (int i = 0; i < MaxPlayerNum; i++)
@@ -294,17 +321,17 @@ public class PlInput : MonoBehaviour
         Player[1] = new Playerinfo();
         //conkind1 = ConKind.KEYBOARD1;
        // conkind2 = ConKind.KEYBOARD2;
-       // ShowConKind();
-
+        //ShowConKind();
     }
     // Use this for initialization
     void Start()
     {
-        //ShowConKind();
         Player[0].ConKind = conkind1;
         Player[1].ConKind = conkind2;
+        Player[0].JoyConNum = joyConNum1;
+        Player[1].JoyConNum = joyConNum2;
+
         Debug.Log("PlInput start");
-       // ShowConKind();
     }
 
     // Update is called once per frame
@@ -326,5 +353,7 @@ public class PlInput : MonoBehaviour
     {
         Debug.Log("Player[0].ConKind is " + PlInput.GetConKind(0));
         Debug.Log("Player[1].ConKind is " + PlInput.GetConKind(1));
+        Debug.Log("Player[0].joyconnum is " + PlInput.Player[0].JoyConNum);
+        Debug.Log("Player[1].coyconnum is " + PlInput.Player[1].JoyConNum);
     }
 }
